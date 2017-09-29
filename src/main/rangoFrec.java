@@ -7,6 +7,8 @@ package main;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 /**
@@ -15,7 +17,7 @@ import java.util.Scanner;
  */
 public class rangoFrec 
 {
-    int [][] rangoFrecuencias = new int [100][100]; 
+    List<List<Integer>> rangoFrecuencias = new ArrayList<> (); 
     Scanner archivo;
     
     public rangoFrec ( ) throws FileNotFoundException
@@ -26,13 +28,14 @@ public class rangoFrec
         while ( archivo.hasNextLine() )
         {
             int contY = 0;
+            rangoFrecuencias.add(new ArrayList<Integer>());
             String line = archivo.nextLine();
             Scanner lineScanner = new Scanner (line);
             lineScanner.nextInt();
             while ( lineScanner.hasNext() )
             {
                 int token = lineScanner.nextInt();
-                rangoFrecuencias[contX][contY++] = token;
+                rangoFrecuencias.get(contX).add(token);
             }
             lineScanner.close();
             contX++;

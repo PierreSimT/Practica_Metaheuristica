@@ -20,12 +20,14 @@ public class main {
     {
         // TODO code application logic here
         rangoFrec nuevo = new rangoFrec();
-        for ( int x = 0; x < 100; x++ )
+        for ( int x = 0; x < nuevo.rangoFrecuencias.size(); x++ )
         {
-            for ( int y = 0; y < 100; y++ )
+            System.out.print("[");
+            for ( int y = 0; y < nuevo.rangoFrecuencias.get(x).size(); y++ )
             {
-                System.out.print(nuevo.rangoFrecuencias[x][y]+", ");
+                System.out.print(nuevo.rangoFrecuencias.get(x).get(y)+", ");
             }
+            System.out.print("]");
             System.out.println();
         }
     }
