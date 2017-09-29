@@ -42,4 +42,9 @@ public class rangoFrec
         }
         archivo.close();
     }
+    
+    public int [] seleccionFrecuencias () 
+    {
+        return null;
+    }
 }
