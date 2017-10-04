@@ -6,6 +6,7 @@
 package main;
 
 import java.io.FileNotFoundException;
+import java.util.Scanner;
 
 /**
  *
@@ -18,10 +19,24 @@ public class main {
      */
     public static void main(String[] args) throws FileNotFoundException 
     {
-        // TODO code application logic here
-        rangoFrec rangoFrecuencias = new rangoFrec();
-        listaTransmisores transmisores = new listaTransmisores ();
+        // Pide al usuario el directorio donde se encuentran los archivos a leer
+        System.out.println("Directorio donde se encuentran los archivos: ");
+        Scanner reader = new Scanner(System.in);
+        String directorio = reader.next();
         
+        rangoFrec frecuencias = new rangoFrec(directorio);
+        listaTransmisores transmisores = new listaTransmisores(directorio);
+        
+//        for ( int x = 0; x < nuevo.rangoFrecuencias.size(); x++ )
+//        {
+//            System.out.print("[");
+//            for ( int y = 0; y < nuevo.rangoFrecuencias.get(x).size(); y++ )
+//            {
+//                System.out.print(nuevo.rangoFrecuencias.get(x).get(y)+", ");
+//            }
+//            System.out.print("]");
+//            System.out.println();
+//        }
     }
     
 }

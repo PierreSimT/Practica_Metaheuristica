@@ -10,6 +10,7 @@ import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
+import java.util.Random;
 
 /**
  *
@@ -18,13 +19,13 @@ import java.util.Scanner;
 public class rangoFrec 
 {
     List<List<Integer>> rangoFrecuencias = new ArrayList<> (); 
-    Scanner archivo;
     
-    public rangoFrec ( ) throws FileNotFoundException
+    
+    public rangoFrec (String _archivo) throws FileNotFoundException
     {
         int contX = 0;
-        File file = new File("conjuntos/graph06/dom.txt");
-        archivo = new Scanner (file);
+        File file = new File("conjuntos/"+_archivo+"/dom.txt");
+        Scanner archivo = new Scanner (file);
         while ( archivo.hasNextLine() )
         {
             int contY = 0;
@@ -45,6 +46,12 @@ public class rangoFrec
     
     public int [] seleccionFrecuencias () 
     {
-        return null;
+        Random numero = new Random ();
+        int [] seleccion = new int [8];
+        for ( int i = 0; i < 8; i++ )
+        {
+            seleccion[i] = rangoFrecuencias.get(i).get(numero.nextInt(rangoFrecuencias.get(i).size()));
+        }
+        return seleccion;
     }
 }
