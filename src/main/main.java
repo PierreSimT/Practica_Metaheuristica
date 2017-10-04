@@ -19,7 +19,7 @@ public class main {
     public static void main(String[] args) throws FileNotFoundException 
     {
         // TODO code application logic here
-        rangoFrec nuevo = new rangoFrec();
+        rangoFrec nuevo = new rangoFrec("graph06");
         for ( int x = 0; x < nuevo.rangoFrecuencias.size(); x++ )
         {
             System.out.print("[");

@@ -18,11 +18,13 @@ import java.util.Scanner;
 public class listaTransmisores 
 {
     List<Integer> transmisores = new ArrayList<> ();
-
-    public listaTransmisores() throws FileNotFoundException 
+    String direct;
+    
+    public listaTransmisores(String _archivo) throws FileNotFoundException 
     {
+        direct = _archivo;
         int contX = 0;
-        File file = new File ("conjuntos/graph06/var.txt");
+        File file = new File ("conjuntos"+direct+"/var.txt");
         Scanner archivo = new Scanner (file);
         while ( archivo.hasNextLine() )
         {

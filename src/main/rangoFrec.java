@@ -18,13 +18,15 @@ import java.util.Scanner;
 public class rangoFrec 
 {
     List<List<Integer>> rangoFrecuencias = new ArrayList<> (); 
-    Scanner archivo;
+    String direct;
     
-    public rangoFrec ( ) throws FileNotFoundException
+    
+    public rangoFrec (String _archivo) throws FileNotFoundException
     {
+        direct = _archivo;
         int contX = 0;
-        File file = new File("conjuntos/graph06/dom.txt");
-        archivo = new Scanner (file);
+        File file = new File("conjuntos/"+direct+"/dom.txt");
+        Scanner archivo = new Scanner (file);
         while ( archivo.hasNextLine() )
         {
             int contY = 0;
