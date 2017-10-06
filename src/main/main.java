@@ -5,6 +5,7 @@
  */
 package main;
 
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.Scanner;
 
@@ -27,6 +28,12 @@ public class main {
         rangoFrec frecuencias = new rangoFrec(directorio);
         listaTransmisores transmisores = new listaTransmisores(directorio);
         
+        int [] rango = frecuencias.seleccionFrecuencias();
+        
+        Algoritmos alg = new Algoritmos ();
+        
+        alg.algGreedy(directorio, rango);
+        
 //        for ( int x = 0; x < nuevo.rangoFrecuencias.size(); x++ )
 //        {
 //            System.out.print("[");
@@ -38,5 +45,7 @@ public class main {
 //            System.out.println();
 //        }
     }
+    
+
     
 }
