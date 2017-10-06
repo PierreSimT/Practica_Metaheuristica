@@ -32,7 +32,7 @@ public class main {
         
         Algoritmos alg = new Algoritmos ();
         
-        alg.algGreedy(directorio, rango);
+        alg.restricciones(directorio, rango);
         
 //        for ( int x = 0; x < nuevo.rangoFrecuencias.size(); x++ )
 //        {
