@@ -7,6 +7,8 @@ package main;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 import java.util.regex.Pattern;
 
@@ -14,20 +16,42 @@ import java.util.regex.Pattern;
  *
  * @author pierrest
  */
-public class Algoritmos 
-{
-    public Algoritmos () {};
-    
-    public void algGreedy (String _fichero, int transmisores[] ) throws FileNotFoundException 
-    {
-        File fichero = new File ("conjuntos/"+_fichero+"/ctr.txt");
-        Scanner lectura = new Scanner (fichero);
-        while (lectura.hasNextLine())
-        {
+public class Algoritmos {
+
+    public Algoritmos() {
+    }
+
+    public void restricciones(String _fichero) throws FileNotFoundException {
+        File fichero = new File("conjuntos/" + _fichero + "/ctr.txt");
+        Scanner lectura = new Scanner(fichero);
+        while (lectura.hasNextLine()) {
             String linea = lectura.nextLine();
-            if (linea.matches("(.* .* C . .* .)"))
+            if (linea.matches("(.* .* C . .* .)")) {
                 System.out.println(linea);
+            }
         }
-        lectura.close();        
+        lectura.close();
+    }
+
+    /*
+    Algoritmo greedy:
+    Asignar un valor al transmisor de forma iterativa e ir calculando uno por uno. Si el resultado mejora
+    sustituir la lista de solución
+     */
+    public void greedy(listaTransmisores l, rangoFrec r) {
+        int menorInterferencia = 999999; //Valor a minimizar. 
+        List<Integer> solucion = new ArrayList<>(); //Lista donde almaceno la solución
+
+        List<Integer> transmisores = new ArrayList<>(); //lista de transmisores
+        transmisores = l.transmisores;
+        List<List<Integer>> rangoFrecuencias = new ArrayList<>(); //estructura para guardar los rangos de frecuencias
+        rangoFrecuencias = r.rangoFrecuencias;
+
+        for (int i = 0; i < transmisores.size(); i++) {
+            for (int j = 0; j < rangoFrecuencias.get(i).size(); j++) {
+
+            }
+        }
+
     }
 }
