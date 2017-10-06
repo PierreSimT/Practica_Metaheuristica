@@ -20,14 +20,12 @@ public class Algoritmos
     
     public void algGreedy (String _fichero, int transmisores[] ) throws FileNotFoundException 
     {
-        Pattern p;
-        p = Pattern.compile("\\d+ \\d+ (C) (>,<,=) \\d");
         File fichero = new File ("conjuntos/"+_fichero+"/ctr.txt");
         Scanner lectura = new Scanner (fichero);
         while (lectura.hasNextLine())
         {
             String linea = lectura.nextLine();
-            if (linea.matches("(\\d+ \\d+ C . \\d+ \\d)"))
+            if (linea.matches("(.* .* C . .* .)"))
                 System.out.println(linea);
         }
         lectura.close();        
