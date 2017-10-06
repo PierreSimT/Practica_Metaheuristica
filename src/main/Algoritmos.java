@@ -16,29 +16,23 @@ import java.util.regex.Pattern;
  *
  * @author pierrest
  */
-public class Algoritmos 
-{
-    public Algoritmos () {};
-    
-    /**
-     * Coge lineas del fichero txt que solo son necesarias para la diferencia
-     * @param _fichero fichero ctr.txt
-     * @param transmisores vector sobre la frecuencia de transmisores
-     * @throws FileNotFoundException si no encuentra el fichero ctr.txt
-     */
-    public void restricciones (String _fichero, int transmisores[] ) throws FileNotFoundException 
-    {
-        File fichero = new File ("conjuntos/"+_fichero+"/ctr.txt");
-        Scanner lectura = new Scanner (fichero);
-        while (lectura.hasNextLine())
-        {
-            String linea = lectura.nextLine();
-            if (linea.matches("(.* .* C . .* .)"))
-                System.out.println(linea);
-        }
-        lectura.close();        
+
+public class Algoritmos {
+
+    public Algoritmos() {
     }
-    
+
+    public void restricciones(String _fichero) throws FileNotFoundException {
+        File fichero = new File("conjuntos/" + _fichero + "/ctr.txt");
+        Scanner lectura = new Scanner(fichero);
+        while (lectura.hasNextLine()) {
+            String linea = lectura.nextLine();
+            if (linea.matches("(.* .* C . .* .)")) {
+                System.out.println(linea);
+            }
+        }
+        lectura.close();
+    }
     /*
     Algoritmo greedy:
     Asignar un valor al transmisor de forma iterativa e ir calculando uno por uno. Si el resultado mejora
