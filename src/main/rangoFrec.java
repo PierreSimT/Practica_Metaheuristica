@@ -32,7 +32,7 @@ public class rangoFrec
             rangoFrecuencias.add(new ArrayList<Integer>());
             String line = archivo.nextLine();
             Scanner lineScanner = new Scanner (line);
-            lineScanner.nextInt();
+            lineScanner.nextInt(); lineScanner.nextInt(); // Salta indice y numero de frecuencias
             while ( lineScanner.hasNext() )
             {
                 int token = lineScanner.nextInt();
