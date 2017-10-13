@@ -48,7 +48,7 @@ public class BusquedaLocal
     {
         int menorInterferencia=999999; //Valor a minimizar. 
         
-        int result = rDiferencia(frecuenciasR, 1);
+        int result = rDiferencia(frecuenciasR, 245);
         if ( resultado > result )
             resultado = result;
         
@@ -69,7 +69,7 @@ public class BusquedaLocal
         while (lectura.hasNextLine()) 
         {
             String linea = lectura.nextLine();
-            if (linea.matches("(.* .* C . .* .)")) 
+            if (linea.matches("(.*C.*)")) 
             {
                 System.out.println(linea);
                 Scanner sLinea = new Scanner (linea);
@@ -102,7 +102,7 @@ public class BusquedaLocal
         while (lectura.hasNextLine()) 
         {
             String linea = lectura.nextLine();
-            if (linea.matches("((\\s*"+cambio+")(.*)(C . .* .))") || linea.matches("((.*)(\\s*"+cambio+")(C . .* .))")) 
+            if (linea.matches("(\\s*"+cambio+"\\s+.*C.*)") || linea.matches("(.*\\s+"+cambio+"\\s+.*C.*)")) 
             {
                 System.out.println(linea);
                 Scanner sLinea = new Scanner (linea);
