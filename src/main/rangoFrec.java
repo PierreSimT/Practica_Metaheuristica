@@ -21,10 +21,10 @@ public class rangoFrec
     List<List<Integer>> rangoFrecuencias = new ArrayList<> (); 
     
     
-    public rangoFrec (String _archivo) throws FileNotFoundException
+    public rangoFrec () throws FileNotFoundException
     {
         int contX = 0;
-        File file = new File("conjuntos/"+_archivo+"/dom.txt");
+        File file = new File("conjuntos/"+main.DIRECTORIO+"/dom.txt");
         Scanner archivo = new Scanner (file);
         while ( archivo.hasNextLine() )
         {
@@ -44,14 +44,4 @@ public class rangoFrec
         archivo.close();
     }
     
-    public int [] seleccionFrecuencias () 
-    {
-        Random numero = new Random ();
-        int [] seleccion = new int [8];
-        for ( int i = 0; i < 8; i++ )
-        {
-            seleccion[i] = rangoFrecuencias.get(i).get(numero.nextInt(rangoFrecuencias.get(i).size()));
-        }
-        return seleccion;
-    }
 }

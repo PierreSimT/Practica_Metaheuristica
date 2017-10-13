@@ -13,8 +13,10 @@ import java.util.Scanner;
  *
  * @author alumno
  */
-public class main {
 
+public class main 
+{
+    public static String DIRECTORIO;
     /**
      * @param args the command line arguments
      */
@@ -23,16 +25,14 @@ public class main {
         // Pide al usuario el directorio donde se encuentran los archivos a leer
         System.out.println("Directorio donde se encuentran los archivos: ");
         Scanner reader = new Scanner(System.in);
-        String directorio = reader.next();
+        DIRECTORIO = reader.next();
         
-        rangoFrec frecuencias = new rangoFrec(directorio);
-        listaTransmisores transmisores = new listaTransmisores(directorio);
+        rangoFrec frecuencias = new rangoFrec();
+        listaTransmisores transmisores = new listaTransmisores();
         
-        int [] rango = frecuencias.seleccionFrecuencias();
-        
-        Algoritmos alg = new Algoritmos ();
-        
-        alg.restricciones(directorio);
+        BusquedaLocal busquedaLocal = new BusquedaLocal (transmisores, frecuencias);
+
+        busquedaLocal.algoritmo();
         
 //        for ( int x = 0; x < nuevo.rangoFrecuencias.size(); x++ )
 //        {

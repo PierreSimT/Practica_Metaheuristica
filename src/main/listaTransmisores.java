@@ -19,10 +19,10 @@ public class listaTransmisores
 {
     List<Integer> transmisores = new ArrayList<> ();
     
-    public listaTransmisores(String _archivo) throws FileNotFoundException 
+    public listaTransmisores() throws FileNotFoundException 
     {
         int contX = 0;
-        File file = new File ("conjuntos/"+_archivo+"/var.txt");
+        File file = new File ("conjuntos/"+main.DIRECTORIO+"/var.txt");
         Scanner archivo = new Scanner (file);
         while ( archivo.hasNextLine() )
         {
