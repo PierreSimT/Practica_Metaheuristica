@@ -53,10 +53,10 @@ public class BusquedaLocal
             algoritmo ();
         } else {
             Random numero = new Random ();
-            int token = numero.nextInt(transmisores.size());
             for ( int i = 0; i < 1000; i++ ) 
             {
-                double sentido = Math.random();
+                int token = numero.nextInt(transmisores.size());
+                double sentido = numero.nextDouble();
                 int valorInicial = frecuenciasR.get(token); // Se obtiene la frecuencia del token
                 int indiceInicial;
                 int nuevoCoste = Integer.MAX_VALUE;
@@ -104,7 +104,7 @@ public class BusquedaLocal
                         }
                     }
                 }
-                System.out.println("Resultado actual: "+resultado);
+                System.out.println( i+" : Resultado actual: "+resultado);
                 token = (token+1)%transmisores.size();
             }
         }
