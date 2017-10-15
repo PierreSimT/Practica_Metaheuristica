@@ -43,12 +43,12 @@ public class BusquedaLocal {
         
         
          */
-        for (int i = 0; i < _transmisores.transmisores.size(); i++) {
-            int indice = _transmisores.transmisores.get(i);
-            int numFrec = _frecuencias.rangoFrecuencias.get(indice - 1).get(1);
-            numFrec += 2;
-            int numero = (int) Math.floor(Math.random() * numFrec + 2);
-            int frec = _frecuencias.rangoFrecuencias.get(indice - 1).get(numero);
+        for (int i = 0; i < transmisores.size(); i++) {
+            int indice = transmisores.get(i);
+            int numFrec = rangoFrecuencias.get(indice).get(0);
+            int numero = (int) Math.floor(Math.random() * (numFrec) + 1);
+            numero=numero -1;
+            int frec = rangoFrecuencias.get(indice).get(numero);
             solucion.add(frec);
         }
 
@@ -57,7 +57,8 @@ public class BusquedaLocal {
         //Generamos un número aleatorio para calcular el transmisor por el cual vamos a empezar
         int numero = (int) Math.floor(Math.random() * _transmisores.transmisores.size());
 
-        for (int i = 0; i < 10000; i++) {
+        for (int i = 0; i < 100; i++) {
+            System.out.println("Ciclo "+i);
 
             //Genera un random para calcular el sentido en el que nos movemos a la hora de buscar
             //una nueva frecuencia para el transmisor
@@ -87,7 +88,7 @@ public class BusquedaLocal {
 
                 //El último valor que se puede acceder es 2, ya que 0 es el rango de Frecuencia y 1 el
                 //número de frecuencias existentes en ese rango
-                while (indiceInicial >= 2 && encontrado == false) {
+                while (indiceInicial >= 1 && encontrado == false) {
                     int facto = rDiferenciaFactorizacion(solucion, numero + 1);
 
                     indiceInicial--;
@@ -110,10 +111,16 @@ public class BusquedaLocal {
             } else {
                 boolean encontrado = false;
 
-                while (indiceInicial < _frecuencias.rangoFrecuencias.get(frecAsociada).get(1) && encontrado == false) {
+                while (indiceInicial < _frecuencias.rangoFrecuencias.get(frecAsociada).size()-1 && encontrado == false) {
                     int facto = rDiferenciaFactorizacion(solucion, numero + 1);
 
                     indiceInicial++;
+                    /*
+                    if(indiceInicial==_frecuencias.rangoFrecuencias.get(frecAsociada).get(1)){
+                        break;
+                    }
+                    */
+                   
                     valorInicial = _frecuencias.rangoFrecuencias.get(frecAsociada).get(indiceInicial);
                     List<Integer> nuevaSolucion = new ArrayList<>();
                     nuevaSolucion = solucion;
@@ -130,7 +137,10 @@ public class BusquedaLocal {
                 }
             }
 
-            numero = numero+1 % _transmisores.transmisores.size();
+            numero = numero+1;
+            if(numero==transmisores.size()){
+                numero=0;
+            }
 
         }
 
@@ -152,7 +162,7 @@ public class BusquedaLocal {
         while (lectura.hasNextLine()) {
             String linea = lectura.nextLine();
             if (linea.matches("(.* .* C . .* .)")) {
-                System.out.println(linea);
+                //System.out.println(linea);
                 Scanner sLinea = new Scanner(linea);
                 while (sLinea.hasNextInt()) {
                     int tr1 = sLinea.nextInt();
@@ -181,7 +191,7 @@ public class BusquedaLocal {
         while (lectura.hasNextLine()) {
             String linea = lectura.nextLine();
             if (linea.matches("(.* .* C . .* .)")) {
-                System.out.println(linea);
+                //System.out.println(linea);
                 Scanner sLinea = new Scanner(linea);
                 while (sLinea.hasNextInt()) {
                     int tr1 = sLinea.nextInt();
