@@ -19,22 +19,21 @@ import java.util.Scanner;
 
 public class BusquedaLocal 
 {
-    List<List<Integer>> rangoFrecuencias = new ArrayList<> ();
+    List<List<Integer>> frecuencias = new ArrayList<> ();
     List<Integer> transmisores = new ArrayList<> ();
-    List<Integer> frecuenciasR = new ArrayList<> ();
+    List<Integer> frecuenciasR = new ArrayList<> (); // Cada posicion es la frecuencia asignada a dicho transmisor
     int resultado;
     
     public BusquedaLocal( listaTransmisores _transmisores, rangoFrec _frecuencias ) 
     {
-        rangoFrecuencias = _frecuencias.rangoFrecuencias;
+        frecuencias = _frecuencias.rangoFrecuencias;
         transmisores = _transmisores.transmisores;
         Random numero = new Random ();
         resultado = Integer.MAX_VALUE;
         for ( int i = 0; i < transmisores.size(); i++ )
         {
-            frecuenciasR.add(rangoFrecuencias.get(transmisores.get(i)).get(numero.nextInt(rangoFrecuencias.get(transmisores.get(i)).size())));
+            frecuenciasR.add(frecuencias.get(transmisores.get(i)).get(numero.nextInt(frecuencias.get(transmisores.get(i)).size())));
         }
-        
     }
 
     /**
@@ -46,13 +45,69 @@ public class BusquedaLocal
      */
     public void algoritmo( ) throws FileNotFoundException
     {
-        int menorInterferencia=999999; //Valor a minimizar. 
-        
-        int result = rDiferencia(frecuenciasR, 245);
-        if ( resultado > result )
-            resultado = result;
-        
-        System.out.print(resultado);
+        if ( resultado == Integer.MAX_VALUE ) 
+        {
+            int result = rDiferencia(frecuenciasR); // Da lugar a la solucion inicial
+            if ( resultado > result )
+                resultado = result;
+            algoritmo ();
+        } else {
+            Random numero = new Random ();
+            int token = numero.nextInt(transmisores.size());
+            for ( int i = 0; i < 1000; i++ ) 
+            {
+                double sentido = Math.random();
+                int valorInicial = frecuenciasR.get(token); // Se obtiene la frecuencia del token
+                int indiceInicial;
+                int nuevoCoste = Integer.MAX_VALUE;
+                
+                indiceInicial = frecuencias.get(transmisores.get(token)).indexOf(valorInicial); // Mas corto que codigo de abajo
+                
+                if ( sentido < 0.5 ) 
+                {
+                    boolean encontrado = false;
+                    while ( indiceInicial > 0 && !encontrado ) 
+                    {
+                        int fact1 = rDiferencia(frecuenciasR, token); 
+                        indiceInicial--;
+                        valorInicial = frecuencias.get(transmisores.get(token)).get(indiceInicial);
+                        List<Integer> nuevaSolucion = new ArrayList <> ();
+                        nuevaSolucion.addAll(frecuenciasR);
+                        nuevaSolucion.set(token, valorInicial);
+                        int fact2 = rDiferencia(nuevaSolucion, token);
+                        nuevoCoste = resultado - fact1 + fact2;
+                        
+                        if ( nuevoCoste < resultado ) {
+                            frecuenciasR = nuevaSolucion;
+                            resultado = nuevoCoste;
+                            encontrado = true;
+                        }
+                    }
+                } else {
+                    boolean encontrado = false;
+                    while ( indiceInicial < frecuencias.get(transmisores.get(token)).size()-1 && !encontrado ) 
+                    {
+                        int fact1 = rDiferencia(frecuenciasR, token);                       
+                        indiceInicial++;
+                        valorInicial = frecuencias.get(transmisores.get(token)).get(indiceInicial);
+                        List<Integer> nuevaSolucion = new ArrayList <> ();
+                        nuevaSolucion.addAll(frecuenciasR);
+                        nuevaSolucion.set(token, valorInicial);
+                        int fact2 = rDiferencia(nuevaSolucion, token);
+                        nuevoCoste = resultado - fact1 + fact2;
+                        
+                        
+                        if ( nuevoCoste < resultado ) {
+                            frecuenciasR = nuevaSolucion;
+                            resultado = nuevoCoste;
+                            encontrado = true;
+                        }
+                    }
+                }
+                System.out.println("Resultado actual: "+resultado);
+                token = (token+1)%transmisores.size();
+            }
+        }
     }
     
     /**
@@ -71,7 +126,7 @@ public class BusquedaLocal
             String linea = lectura.nextLine();
             if (linea.matches("(.*C.*)")) 
             {
-                System.out.println(linea);
+//                System.out.println(linea);
                 Scanner sLinea = new Scanner (linea);
                 while ( sLinea.hasNextInt() )
                 {
@@ -81,10 +136,8 @@ public class BusquedaLocal
                     int diferencia = sLinea.nextInt();
                     int result = sLinea.nextInt();
                     
-                    if ( Math.abs(valores.get(transmisores.get(tr1-1)) - valores.get(transmisores.get(tr2-1))) > diferencia )
-                    {
+                    if ( Math.abs(valores.get(tr1-1)) - valores.get(tr2-1) > diferencia )
                         total += result;
-                    }
                 }
                 sLinea.close();
             }
@@ -94,7 +147,14 @@ public class BusquedaLocal
         return total;
     }
     
-    public int rDiferencia( List<Integer> valores, int cambio) throws FileNotFoundException 
+    /**
+     * Calcula el resultado del problema a minimizar
+     * @param valores Valores de los transmisores
+     * @param cambioTransmisor Transmisor al que se le aplico un cambio de frecuencia
+     * @return
+     * @throws FileNotFoundException 
+     */
+    public int rDiferencia( List<Integer> valores, int cambioTransmisor) throws FileNotFoundException 
     {
         File fichero = new File("conjuntos/" + main.DIRECTORIO + "/ctr.txt");
         Scanner lectura = new Scanner(fichero);
@@ -102,9 +162,9 @@ public class BusquedaLocal
         while (lectura.hasNextLine()) 
         {
             String linea = lectura.nextLine();
-            if (linea.matches("(\\s*"+cambio+"\\s+.*C.*)") || linea.matches("(.*\\s+"+cambio+"\\s+.*C.*)")) 
+            if (linea.matches("(\\s*"+cambioTransmisor+"\\s+.*C.*)") || linea.matches("(.*\\s+"+cambioTransmisor+"\\s+.*C.*)")) 
             {
-                System.out.println(linea);
+//                System.out.println(linea);
                 Scanner sLinea = new Scanner (linea);
                 while ( sLinea.hasNextInt() )
                 {
@@ -114,10 +174,8 @@ public class BusquedaLocal
                     int diferencia = sLinea.nextInt();
                     int result = sLinea.nextInt();
                     
-                    if ( Math.abs(valores.get(transmisores.get(tr1-1)) - valores.get(transmisores.get(tr2-1))) > diferencia )
-                    {
+                    if ( Math.abs(valores.get(tr1-1) - valores.get(tr2-1)) < diferencia )
                         total += result;
-                    }
                 }
                 sLinea.close();
             }

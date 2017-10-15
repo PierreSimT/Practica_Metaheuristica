@@ -33,6 +33,13 @@ public class main
         BusquedaLocal busquedaLocal = new BusquedaLocal (transmisores, frecuencias);
 
         busquedaLocal.algoritmo();
+        System.out.println("El coste es: "+busquedaLocal.resultado);
+        System.out.println("Las frecuencias asignadas son: ");
+         
+        for(int i=0;i< busquedaLocal.frecuenciasR.size()-1;i++)
+        {
+            System.out.println("Transmisor "+(i+1)+": "+busquedaLocal.frecuenciasR.get(i));
+        }
         
 //        for ( int x = 0; x < nuevo.rangoFrecuencias.size(); x++ )
 //        {
