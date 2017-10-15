@@ -66,10 +66,9 @@ public class BusquedaLocal
                 if ( sentido < 0.5 ) 
                 {
                     boolean encontrado = false;
-                    while ( indiceInicial > 0 && !encontrado ) 
+                    while ( indiceInicial >= 0 && !encontrado ) 
                     {
                         int fact1 = rDiferencia(frecuenciasR, token); 
-                        indiceInicial--;
                         valorInicial = frecuencias.get(transmisores.get(token)).get(indiceInicial);
                         List<Integer> nuevaSolucion = new ArrayList <> ();
                         nuevaSolucion.addAll(frecuenciasR);
@@ -82,13 +81,13 @@ public class BusquedaLocal
                             resultado = nuevoCoste;
                             encontrado = true;
                         }
+                        indiceInicial--;
                     }
                 } else {
                     boolean encontrado = false;
-                    while ( indiceInicial < frecuencias.get(transmisores.get(token)).size()-1 && !encontrado ) 
+                    while ( indiceInicial < frecuencias.get(transmisores.get(token)).size() && !encontrado ) 
                     {
                         int fact1 = rDiferencia(frecuenciasR, token);                       
-                        indiceInicial++;
                         valorInicial = frecuencias.get(transmisores.get(token)).get(indiceInicial);
                         List<Integer> nuevaSolucion = new ArrayList <> ();
                         nuevaSolucion.addAll(frecuenciasR);
@@ -102,6 +101,7 @@ public class BusquedaLocal
                             resultado = nuevoCoste;
                             encontrado = true;
                         }
+                        indiceInicial++;
                     }
                 }
                 System.out.println( i+" : Resultado actual: "+resultado);
