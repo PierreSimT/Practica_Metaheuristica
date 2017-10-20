@@ -65,7 +65,9 @@ public class main
 
                         break;
                     case 3:
-
+                        BusquedaTabu busquedaTabu = new BusquedaTabu (transmisores, frecuencias, rest);
+                        busquedaTabu.algoritmo ();
+                        busquedaTabu.resultados ();
                         break;
                     case 4:
 

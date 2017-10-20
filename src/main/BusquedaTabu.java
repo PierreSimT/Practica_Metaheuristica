@@ -33,7 +33,7 @@ public class BusquedaTabu
         for ( int i = 0; i < transmisores.size(); i++ )
         {
             frecuenciasR.add(frecuencias.get(transmisores.get(i)).get(numero.nextInt(frecuencias.get(transmisores.get(i)).size())));
-            listaTabu.add(frecuenciasR.get(i)); // Añade en casa posicion la frecuencia asignada a TXi
+            listaTabu.add(frecuenciasR.get(i)); // Añade en cada posicion la frecuencia asignada a TXi
         }
     }
     
@@ -44,9 +44,92 @@ public class BusquedaTabu
             int result = rDiferencia ( frecuenciasR, restricciones );
             if ( resultado > result )
                 resultado = result;
+            algoritmo();
         } else {
-            Random numero = new Random ();
             
+            Random numero = new Random ();
+            int token = numero.nextInt (transmisores.size ());
+            for ( int i = 0; i < 10; i ++ )
+            {
+                double sentido = numero.nextDouble ();
+                int valorInicial = frecuenciasR.get (token); // Se obtiene la frecuencia del token
+                int indiceInicial;
+                int nuevoCoste = Integer.MAX_VALUE;
+
+                indiceInicial = frecuencias.get (transmisores.get (token)).indexOf (valorInicial); // Obtiene posicion de la frecuencia asignada al transmisor
+
+                if ( sentido < 0.5 )
+                {
+                    boolean fin = false;
+                    int iteraciones = 0;
+                    List<Integer> solucionTabu = new ArrayList<> ();
+                    int fact1 = rDiferencia (frecuenciasR, token, restricciones);
+                    int minimo = resultado;
+                    while ( iteraciones < 20 && !fin )
+                    {
+                        int posicionesPos = frecuencias.get (transmisores.get(token)).size();
+                        indiceInicial = Math.floorMod (indiceInicial-1, frecuencias.get (transmisores.get(token)).size());
+                        valorInicial = frecuencias.get (transmisores.get (token)).get (indiceInicial);
+                        List<Integer> nuevaSolucion = new ArrayList<> ();
+                        nuevaSolucion.addAll (frecuenciasR);
+                        nuevaSolucion.set (token, valorInicial);
+                        int fact2 = rDiferencia (nuevaSolucion, token, restricciones);
+                        nuevoCoste = resultado - fact1 + fact2;
+
+                        if ( nuevoCoste < minimo )
+                        {   
+                            minimo = nuevoCoste;
+                            solucionTabu = nuevaSolucion;
+                        }
+                        if ( posicionesPos == 0 )
+                            fin = true;
+                        posicionesPos--;
+                        iteraciones++;
+                    }
+                    
+                    if ( minimo < resultado ) 
+                    {
+                        frecuenciasR = solucionTabu;
+                        resultado = minimo;
+                    }
+                    
+                } else
+                {
+                    boolean fin = false;
+                    int iteraciones = 0;
+                    List<Integer> solucionTabu = new ArrayList<> ();
+                    int fact1 = rDiferencia (frecuenciasR, token, restricciones);
+                    int minimo = resultado;
+                    while ( iteraciones < 20 && !fin )
+                    {
+                        int posicionesPos = frecuencias.get (transmisores.get(token)).size();
+                        indiceInicial = Math.floorMod (indiceInicial+1, frecuencias.get (transmisores.get(token)).size());
+                        valorInicial = frecuencias.get (transmisores.get (token)).get (indiceInicial);
+                        List<Integer> nuevaSolucion = new ArrayList<> ();
+                        nuevaSolucion.addAll (frecuenciasR);
+                        nuevaSolucion.set (token, valorInicial);
+                        int fact2 = rDiferencia (nuevaSolucion, token, restricciones);
+                        nuevoCoste = resultado - fact1 + fact2;
+
+                        if ( nuevoCoste < minimo )
+                        {   
+                            minimo = nuevoCoste;
+                            solucionTabu = nuevaSolucion;
+                        }
+                        if ( posicionesPos == 0 )
+                            fin = true;
+                        posicionesPos--;
+                        iteraciones++;
+                    }
+                    
+                    if ( minimo < resultado ) 
+                    {
+                        frecuenciasR = solucionTabu;
+                        resultado = minimo;
+                    }
+                }
+                token = (token + 1) % transmisores.size ();
+            }           
         }
     }
     
