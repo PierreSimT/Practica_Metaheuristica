@@ -17,22 +17,25 @@ import java.util.Scanner;
  *
  * @author pierrest
  */
-public class BusquedaLocal {
+public class BusquedaLocal
+{
 
-    List<List<Integer>> frecuencias = new ArrayList<>();
-    List<Integer> transmisores = new ArrayList<>();
-    List<Integer> frecuenciasR = new ArrayList<>(); // Cada posicion es la frecuencia asignada a dicho transmisor
+    List<List<Integer>> frecuencias = new ArrayList<> ();
+    List<Integer> transmisores = new ArrayList<> ();
+    List<Integer> frecuenciasR = new ArrayList<> (); // Cada posicion es la frecuencia asignada a dicho transmisor
     Restricciones rest;
     int resultado;
 
-    public BusquedaLocal(listaTransmisores _transmisores, rangoFrec _frecuencias, Restricciones _restricciones) {
+    public BusquedaLocal ( listaTransmisores _transmisores, rangoFrec _frecuencias, Restricciones _restricciones )
+    {
         frecuencias = _frecuencias.rangoFrecuencias;
         transmisores = _transmisores.transmisores;
         rest = _restricciones;
-        Random numero = new Random();
+        Random numero = new Random ();
         resultado = Integer.MAX_VALUE;
-        for (int i = 0; i < transmisores.size(); i++) {
-            frecuenciasR.add(frecuencias.get(transmisores.get(i)).get(numero.nextInt(frecuencias.get(transmisores.get(i)).size())));
+        for ( int i = 0; i < transmisores.size (); i ++ )
+        {
+            frecuenciasR.add (frecuencias.get (transmisores.get (i)).get (numero.nextInt (frecuencias.get (transmisores.get (i)).size ())));
         }
     }
 
@@ -44,63 +47,73 @@ public class BusquedaLocal {
      * @param l
      * @param r
      */
-    public void algoritmo() throws FileNotFoundException {
-        if (resultado == Integer.MAX_VALUE) {
-            int result = rDiferencia(frecuenciasR, rest); // Da lugar a la solucion inicial
-            if (resultado > result) {
+    public void algoritmo () throws FileNotFoundException
+    {
+        if ( resultado == Integer.MAX_VALUE )
+        {
+            int result = rDiferencia (frecuenciasR, rest); // Da lugar a la solucion inicial
+            if ( resultado > result )
+            {
                 resultado = result;
             }
-            algoritmo();
-        } else {
-            Random numero = new Random();
-            for (int i = 0; i < 1000; i++) {
-                int token = numero.nextInt(transmisores.size());
-                double sentido = numero.nextDouble();
-                int valorInicial = frecuenciasR.get(token); // Se obtiene la frecuencia del token
+            algoritmo ();
+        } else
+        {
+            Random numero = new Random ();
+            int token = numero.nextInt (transmisores.size ());
+            for ( int i = 0; i < 1000; i ++ )
+            {
+                double sentido = numero.nextDouble ();
+                int valorInicial = frecuenciasR.get (token); // Se obtiene la frecuencia del token
                 int indiceInicial;
                 int nuevoCoste = Integer.MAX_VALUE;
 
-                indiceInicial = frecuencias.get(transmisores.get(token)).indexOf(valorInicial); // Mas corto que codigo de abajo
+                indiceInicial = frecuencias.get (transmisores.get (token)).indexOf (valorInicial); // Mas corto que codigo de abajo
 
-                if (sentido < 0.5) {
+                if ( sentido < 0.5 )
+                {
                     boolean encontrado = false;
-                    while (indiceInicial >= 0 && !encontrado) {
-                        int fact1 = rDiferencia(frecuenciasR, token, rest);
-                        valorInicial = frecuencias.get(transmisores.get(token)).get(indiceInicial);
-                        List<Integer> nuevaSolucion = new ArrayList<>();
-                        nuevaSolucion.addAll(frecuenciasR);
-                        nuevaSolucion.set(token, valorInicial);
-                        int fact2 = rDiferencia(nuevaSolucion, token, rest);
+                    while ( indiceInicial >= 0 &&  ! encontrado )
+                    {
+                        int fact1 = rDiferencia (frecuenciasR, token, rest);
+                        valorInicial = frecuencias.get (transmisores.get (token)).get (indiceInicial);
+                        List<Integer> nuevaSolucion = new ArrayList<> ();
+                        nuevaSolucion.addAll (frecuenciasR);
+                        nuevaSolucion.set (token, valorInicial);
+                        int fact2 = rDiferencia (nuevaSolucion, token, rest);
                         nuevoCoste = resultado - fact1 + fact2;
 
-                        if (nuevoCoste < resultado) {
+                        if ( nuevoCoste < resultado )
+                        {
                             frecuenciasR = nuevaSolucion;
                             resultado = nuevoCoste;
                             encontrado = true;
                         }
-                        indiceInicial--;
+                        indiceInicial --;
                     }
-                } else {
+                } else
+                {
                     boolean encontrado = false;
-                    while (indiceInicial < frecuencias.get(transmisores.get(token)).size() && !encontrado) {
-                        int fact1 = rDiferencia(frecuenciasR, token, rest);
-                        valorInicial = frecuencias.get(transmisores.get(token)).get(indiceInicial);
-                        List<Integer> nuevaSolucion = new ArrayList<>();
-                        nuevaSolucion.addAll(frecuenciasR);
-                        nuevaSolucion.set(token, valorInicial);
-                        int fact2 = rDiferencia(nuevaSolucion, token, rest);
+                    while ( indiceInicial < frecuencias.get (transmisores.get (token)).size () &&  ! encontrado )
+                    {
+                        int fact1 = rDiferencia (frecuenciasR, token, rest);
+                        valorInicial = frecuencias.get (transmisores.get (token)).get (indiceInicial);
+                        List<Integer> nuevaSolucion = new ArrayList<> ();
+                        nuevaSolucion.addAll (frecuenciasR);
+                        nuevaSolucion.set (token, valorInicial);
+                        int fact2 = rDiferencia (nuevaSolucion, token, rest);
                         nuevoCoste = resultado - fact1 + fact2;
 
-                        if (nuevoCoste < resultado) {
+                        if ( nuevoCoste < resultado )
+                        {
                             frecuenciasR = nuevaSolucion;
                             resultado = nuevoCoste;
                             encontrado = true;
                         }
-                        indiceInicial++;
+                        indiceInicial ++;
                     }
                 }
-                System.out.println(i + " : Resultado actual: " + resultado);
-                token = (token + 1) % transmisores.size();
+                token = (token + 1) % transmisores.size ();
             }
         }
     }
@@ -108,16 +121,19 @@ public class BusquedaLocal {
     /**
      *
      */
-    public int rDiferencia(List<Integer> valores, Restricciones rest) throws FileNotFoundException {
+    public int rDiferencia ( List<Integer> valores, Restricciones rest ) throws FileNotFoundException
+    {
 
         int total = 0;
-        for (int i = 0; i < rest.restricciones.size(); i++) {
-            int tr1 = rest.restricciones.get(i).get(0);
-            int tr2 = rest.restricciones.get(i).get(1);
-            int diferencia = rest.restricciones.get(i).get(2);
-            int result = rest.restricciones.get(i).get(3);
+        for ( int i = 0; i < rest.restricciones.size (); i ++ )
+        {
+            int tr1 = rest.restricciones.get (i).get (0);
+            int tr2 = rest.restricciones.get (i).get (1);
+            int diferencia = rest.restricciones.get (i).get (2);
+            int result = rest.restricciones.get (i).get (3);
 
-            if (Math.abs(valores.get(tr1 - 1) - valores.get(tr2 - 1)) > diferencia) {
+            if ( Math.abs (valores.get (tr1 - 1) - valores.get (tr2 - 1)) > diferencia )
+            {
                 total += result;
             }
 
@@ -136,19 +152,23 @@ public class BusquedaLocal {
      * @return
      * @throws FileNotFoundException
      */
-    public int rDiferencia(List<Integer> valores, int cambioTransmisor, Restricciones rest) throws FileNotFoundException {
+    public int rDiferencia ( List<Integer> valores, int cambioTransmisor, Restricciones rest ) throws FileNotFoundException
+    {
 
         int total = 0;
-        for (int i = 0; i < rest.restricciones.size(); i++) {
+        for ( int i = 0; i < rest.restricciones.size (); i ++ )
+        {
 
-            int tr1 = rest.restricciones.get(i).get(0);
-            int tr2 = rest.restricciones.get(i).get(1);
+            int tr1 = rest.restricciones.get (i).get (0);
+            int tr2 = rest.restricciones.get (i).get (1);
 
-            if (tr1 == cambioTransmisor || tr2 == cambioTransmisor) {
-                int diferencia = rest.restricciones.get(i).get(2);
-                int result = rest.restricciones.get(i).get(3);
+            if ( tr1 == cambioTransmisor || tr2 == cambioTransmisor )
+            {
+                int diferencia = rest.restricciones.get (i).get (2);
+                int result = rest.restricciones.get (i).get (3);
 
-                if (Math.abs(valores.get(tr1 - 1) - valores.get(tr2 - 1)) > diferencia) {
+                if ( Math.abs (valores.get (tr1 - 1) - valores.get (tr2 - 1)) > diferencia )
+                {
                     total += result;
                 }
 
@@ -160,12 +180,13 @@ public class BusquedaLocal {
 
     }
 
-    public void resultados() {
-        System.out.println("Coste: " + resultado);
-        for (int i = 0; i < transmisores.size(); i++) {
-            System.out.println("Transmisor " + (i + 1) + ": " + frecuenciasR.get(i));
+    public void resultados ()
+    {
+        System.out.println ("Coste: " + resultado);
+        for ( int i = 0; i < transmisores.size (); i ++ )
+        {
+            System.out.println ("Transmisor " + (i + 1) + ": " + frecuenciasR.get (i));
         }
     }
 
-    
 }
