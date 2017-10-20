@@ -18,6 +18,7 @@ public class BusquedaTabu
     List<List<Integer>> frecuencias = new ArrayList<> ();
     List<Integer> transmisores = new ArrayList<> ();
     List<Integer> frecuenciasR = new ArrayList<> (); // Cada posicion es la frecuencia asignada a dicho transmisor
+    List<Integer> listaTabu = new ArrayList<> ();
     int resultado;    
     
     public BusquedaTabu ( listaTransmisores _transmisores, rangoFrec _frecuencias ) 
