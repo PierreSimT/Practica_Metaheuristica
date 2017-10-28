@@ -32,6 +32,7 @@ public class BusquedaLocal
         transmisores = _transmisores.transmisores;
         rest = _restricciones;
         Random numero = new Random ();
+        numero.setSeed(3181827);
         resultado = Integer.MAX_VALUE;
         for ( int i = 0; i < transmisores.size (); i ++ )
         {
