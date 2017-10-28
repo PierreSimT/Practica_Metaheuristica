@@ -8,6 +8,8 @@ package main;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Scanner;
@@ -20,12 +22,19 @@ import java.util.Random;
 public class Restricciones {
 
     LinkedList<LinkedList<Integer>> restricciones = new LinkedList<>();
+    private List<List<List<Integer>>> resTransmisor = new ArrayList<>();
 
     public Restricciones() throws FileNotFoundException {
         int contador = 0;
         File fichero = new File("conjuntos/" + main.DIRECTORIO + "/ctr.txt");
         Scanner lectura = new Scanner(fichero);
-
+        int [] contadores = new int [400];
+        Arrays.fill(contadores, 0);
+        
+        for ( int i = 0; i < 400; i++ ) {
+            resTransmisor.add(new ArrayList<> ());
+        }
+        
         while (lectura.hasNextLine()) {
             String linea = lectura.nextLine();
             if (linea.matches("(.*C.*)")) {
@@ -47,43 +56,11 @@ public class Restricciones {
                     datos.add(3,result);
                     
                     restricciones.add(contador, datos);
-                    contador++;
-                }
-                sLinea.close();
-                
-
-            }
-        }
-        lectura.close();
-
-    }
-    
-        public Restricciones( int transmisor ) throws FileNotFoundException {
-        int contador = 0;
-        File fichero = new File("conjuntos/" + main.DIRECTORIO + "/ctr.txt");
-        Scanner lectura = new Scanner(fichero);
-
-        while (lectura.hasNextLine()) {
-            String linea = lectura.nextLine();
-            if (linea.matches("(.*C.*)")) {
-//                System.out.println(linea);
-                Scanner sLinea = new Scanner(linea);
-                while (sLinea.hasNextInt()) {
-
-                    int tr1 = sLinea.nextInt();
-                    int tr2 = sLinea.nextInt();
-                    sLinea.next();
-                    sLinea.next();
-                    int diferencia = sLinea.nextInt();
-                    int result = sLinea.nextInt();
                     
-                    LinkedList<Integer> datos=new LinkedList<>();
-                    datos.add(0,tr1);
-                    datos.add(1,tr2);
-                    datos.add(2,diferencia);
-                    datos.add(3,result);
-                    
-                    restricciones.add(contador, datos);
+                    resTransmisor.get(tr1-1).add(new ArrayList ());
+                    resTransmisor.get(tr1-1).get(contadores[tr1-1]++).addAll(datos);
+                    resTransmisor.get(tr2-1).add(new ArrayList());
+                    resTransmisor.get(tr2-1).get(contadores[tr2-1]++).addAll(datos);
                     contador++;
                 }
                 sLinea.close();
@@ -95,6 +72,19 @@ public class Restricciones {
 
     }
 
+        /**
+         * Funcion que devuelve las restricciones de un transmisor dado
+         * @param transmisor
+         * @return 
+         */
+        public List<List<Integer>> restriccionesTransmisor ( int transmisor ) {
+            List<List<Integer>> restriccionesTransmisor = new ArrayList<> ();
+            
+            restriccionesTransmisor = resTransmisor.get(transmisor);
+            
+            return restriccionesTransmisor;
+        }
+        
     public void leerResultados() {
         for (int i = 0; i < restricciones.size(); i++) {
            System.out.println(restricciones.get(i).get(0)+" "+restricciones.get(i).get(1)+" "+
@@ -102,4 +92,3 @@ public class Restricciones {
             }
         }
     }
-
