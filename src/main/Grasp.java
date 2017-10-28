@@ -98,7 +98,6 @@ public class Grasp
                     }
                 }
                 frecuenciasR.set(transmisor, frecuenciaR);
-                System.out.println(transmisor+" : "+frecuenciaR);
             }
             transmisor++;           
         }
@@ -176,23 +175,22 @@ public class Grasp
      * @return
      * @throws FileNotFoundException
      */
-    public int rDiferencia ( List<Integer> valores, int cambioTransmisor, Restricciones rest ) throws FileNotFoundException
-    {
+    public int rDiferencia(List<Integer> valores, int cambioTransmisor, Restricciones rest) throws FileNotFoundException {
+
+        List<List<Integer>> listaRest = new ArrayList<>();
+        listaRest = rest.restriccionesTransmisor(cambioTransmisor);
 
         int total = 0;
-        for ( int i = 0; i < rest.restricciones.size (); i ++ )
-        {
+        for (int i = 0; i < listaRest.size(); i++) {
 
-            int tr1 = rest.restricciones.get (i).get (0);
-            int tr2 = rest.restricciones.get (i).get (1);
+            int tr1 = listaRest.get(i).get(0);
+            int tr2 = listaRest.get(i).get(1);
 
-            if ( tr1 == cambioTransmisor || tr2 == cambioTransmisor )
-            {
-                int diferencia = rest.restricciones.get (i).get (2);
-                int result = rest.restricciones.get (i).get (3);
+            if (tr1 == cambioTransmisor || tr2 == cambioTransmisor) {
+                int diferencia = listaRest.get(i).get(2);
+                int result = listaRest.get(i).get(3);
 
-                if ( Math.abs (valores.get (tr1 - 1) - valores.get (tr2 - 1)) > diferencia )
-                {
+                if (Math.abs(valores.get(tr1 - 1) - valores.get(tr2 - 1)) > diferencia) {
                     total += result;
                 }
 
