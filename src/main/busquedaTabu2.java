@@ -81,40 +81,12 @@ public class busquedaTabu2 {
                 indiceInicial = frecuencias.get(transmisores.get(token)).indexOf(valorInicial); // Mas corto que codigo de abajo
 
                 if (sentido < 0.5) {
-                    int contador = 0;
-                    int indiceFinal = indiceInicial + 1;
-                    while (indiceInicial != indiceFinal && contador < 20) {
-                        int fact1 = rDiferencia(frecuenciasR, token, rest);
-                        valorInicial = frecuencias.get(transmisores.get(token)).get(indiceInicial);
-                        boolean esTabu = comprobarTabu(token, valorInicial);
-
-                        if (esTabu = false) {
-                            List<Integer> nuevaSolucion = new ArrayList<>();
-                            nuevaSolucion.addAll(frecuenciasR);
-                            nuevaSolucion.set(token, valorInicial);
-                            int fact2 = rDiferencia(nuevaSolucion, token, rest);
-                            nuevoCoste = resultado - fact1 + fact2;
-
-                            if (nuevoCoste < resultado) {
-                                frecuenciasR = nuevaSolucion;
-                                resultado = nuevoCoste;
-                                insertarTabu(token, valorInicial);
-                                tabuActualizado = true;
-
-                            }
-                        }
-
-                        contador++;
-                        indiceInicial--;
-                        if (indiceInicial == 0) {
-                            indiceInicial = frecuencias.get(transmisores.get(token)).size() - 1;
-                        }
-                    }
-                } else {
-                    int contador = 0;
-                    int indiceFinal = indiceInicial - 1;
-
-                    while (indiceInicial != indiceFinal && contador < 20) {
+                    int iteraciones = 0;
+                    boolean fin=false;
+                    while (!fin && iteraciones < 20) {
+                        int posicionesPos = frecuencias.get(transmisores.get(token)).size();
+                        indiceInicial = Math.floorMod(indiceInicial - 1, frecuencias.get(transmisores.get(token)).size());
+                        
                         int fact1 = rDiferencia(frecuenciasR, token, rest);
                         valorInicial = frecuencias.get(transmisores.get(token)).get(indiceInicial);
                         boolean esTabu = comprobarTabu(token, valorInicial);
@@ -134,11 +106,45 @@ public class busquedaTabu2 {
 
                             }
                         }
-                        indiceInicial++;
-                        contador++;
-                        if (indiceInicial == frecuencias.get(transmisores.get(token)).size() - 1) {
-                            indiceInicial = 1;
+                        if(posicionesPos==0){
+                            fin=true;
                         }
+
+                        iteraciones++;
+                        posicionesPos--;
+
+                    }
+                } else {
+                    int iteraciones = 0;
+                    boolean fin=false;
+
+                    while (!fin && iteraciones < 20) {
+                        int posicionesPos = frecuencias.get(transmisores.get(token)).size();
+                        indiceInicial = Math.floorMod(indiceInicial + 1, frecuencias.get(transmisores.get(token)).size());
+                        int fact1 = rDiferencia(frecuenciasR, token, rest);
+                        valorInicial = frecuencias.get(transmisores.get(token)).get(indiceInicial);
+                        boolean esTabu = comprobarTabu(token, valorInicial);
+
+                        if (esTabu == false) {
+                            List<Integer> nuevaSolucion = new ArrayList<>();
+                            nuevaSolucion.addAll(frecuenciasR);
+                            nuevaSolucion.set(token, valorInicial);
+                            int fact2 = rDiferencia(nuevaSolucion, token, rest);
+                            nuevoCoste = resultado - fact1 + fact2;
+
+                            if (nuevoCoste < resultado) {
+                                frecuenciasR = nuevaSolucion;
+                                resultado = nuevoCoste;
+                                insertarTabu(token, valorInicial);
+                                tabuActualizado = true;
+
+                            }
+                        }
+                        if (posicionesPos == 0) {
+                            fin = true;
+                        }
+                        posicionesPos--;
+                        iteraciones++;
                     }
                 }
                 System.out.println(i + " : Resultado actual: " + resultado);
@@ -172,13 +178,16 @@ public class busquedaTabu2 {
 
                 //Comprobar estancamiento
                 if (contadorEstancamiento == 2000) {
+                    System.out.println("Estancado!");
                     pasarMatrizFrecuencias();
 
                 }
 
                 //Cambiar indice lista Tabu si se ha añadido algun valor
                 if (tabuActualizado == true) {
+                    if(tamalogicolt!=tamaFisicolt){
                     tamalogicolt++;
+                    }
                     indicelt++;
                     //Si tamalogico y tamafisico iguales, poner el tamalogico a 0 para que sobreescriba
                     //el valor más antiguo
