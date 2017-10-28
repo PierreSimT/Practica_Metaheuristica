@@ -7,6 +7,7 @@ package main;
 
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 
@@ -21,7 +22,7 @@ public class Grasp
     private List<List<Integer>> frecuencias = new ArrayList<> ();
     private List<Integer> transmisores = new ArrayList<>();
     private List<Integer> listaRestringida = new ArrayList<> ();
-    private List<Integer> frecuenciasR = new ArrayList<> (400);
+    private List<Integer> frecuenciasR = new ArrayList<>(Collections.nCopies(400, 0));
     private double vectorCostes [];
     private Restricciones restricciones;
     private int resultado;
@@ -44,7 +45,7 @@ public class Grasp
             int tama = frecuencias.get(transmisores.get (transmisor)).size();
             int frecuenciaAsig = frecuencias.get(transmisores.get(transmisor)).get(numero.nextInt(tama));           
             listaRestringida.add (transmisor);
-            
+            frecuenciasR.set(transmisor, frecuenciaAsig);
         }
         solucionInicial ();
     }
@@ -52,17 +53,27 @@ public class Grasp
     private void solucionInicial () {
         
         int transmisor = 0;
-        int frecuencia;
         boolean fin = false;
         while ( !fin ) {
+            int minimo = Integer.MAX_VALUE;
             int pos = 0;
+            int frecuencia;
             boolean encontrado = false;
             if ( !listaRestringida.contains(transmisor) ) {
-                while ( pos < frecuencias.get (transmisores.get (transmisor)).size () &&  ! encontrado ) {
-                     
+                while ( pos < frecuencias.get(transmisores.get(transmisor)).size () &&  ! encontrado ) {
+                    frecuencia = frecuencias.get(transmisores.get(transmisor)).get(pos++);
+                    
                 }
             }
         }
+    }
+    
+    private boolean compruebaTransmisores ( int transmisor ) {
+        boolean posible = false;
+        
+        
+        
+        return posible;
     }
     
     public int rDiferencia ( List<Integer> valores, Restricciones rest ) throws FileNotFoundException

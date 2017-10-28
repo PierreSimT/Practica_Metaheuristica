@@ -114,7 +114,7 @@ public class BusquedaLocal
                         indiceInicial ++;
                     }
                 }
-                token = (token + 1) % transmisores.size ();
+                token = Math.floorMod(token + 1, transmisores.size ());
             }
         }
     }
