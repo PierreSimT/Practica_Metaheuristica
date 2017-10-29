@@ -10,9 +10,6 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
-import java.nio.file.FileSystems;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.Random;
 import java.util.Scanner;
 
@@ -39,7 +36,6 @@ public class main {
         NUMERO.setSeed(3181827);
         
         TRABAJO = System.getProperty("user.dir");
-        System.out.println(TRABAJO);
 
         System.out.println("Conjunto de archivos que quiere usar: ");
         Scanner reader = new Scanner(System.in);
@@ -69,9 +65,14 @@ public class main {
                         greedy.resultados();
                         break;
                     case 2:
+                        float startTime = System.nanoTime();
                         BusquedaLocal busquedaLocal = new BusquedaLocal(transmisores, frecuencias, rest);
                         busquedaLocal.algoritmo();
+                        float endTime = System.nanoTime();
                         busquedaLocal.resultados();
+                        
+                        float duration = (endTime - startTime)/ 1000000000;
+                        System.out.println("Tiempo de ejecucion: "+duration+" segundos");
                         break;
                     case 3:
                         BusquedaTabu busquedaTabu = new BusquedaTabu(transmisores, frecuencias, rest);
@@ -83,7 +84,6 @@ public class main {
                         grasp.resultados();
                         break;
                     case 5:
-
                         System.out.println("Conjunto de archivos que quiere usar: ");
 
                         DIRECTORIO = reader.next();

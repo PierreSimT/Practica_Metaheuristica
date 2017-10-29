@@ -38,8 +38,6 @@ public class BusquedaLocal {
      * calculando uno por uno. Si el resultado mejora sustituir la lista de
      * solución
      *
-     * @param l
-     * @param r
      */
     public void algoritmo() throws FileNotFoundException {
         if (resultado == Integer.MAX_VALUE) {
@@ -102,7 +100,10 @@ public class BusquedaLocal {
     }
 
     /**
-     *
+     * Función que devuelve el resultado de todas las restricciones con una lista
+     * de frecuencias dada.
+     * @param valores Lista de frecuencias de cada transmisor
+     * @param rest Restricciones a satisfacer
      */
     public int rDiferencia(List<Integer> valores, Restricciones rest) throws FileNotFoundException {
 
@@ -159,6 +160,9 @@ public class BusquedaLocal {
 
     }
 
+    /**
+     * Función que devuelve por pantalla los resultados obtenidos
+     */
     public void resultados() {
         
         for (int i = 0; i < transmisores.size(); i++) {

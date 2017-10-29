@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Random;
+import static main.main.NUMERO;
 
 /**
  *
@@ -23,7 +24,6 @@ public class Grasp {
     private List<Integer> transmisores = new ArrayList<>();
     private List<Integer> listaRestringida = new ArrayList<>();
     private List<Integer> frecuenciasR = new ArrayList<>();
-    //private double vectorCostes [];
     private List<List<Integer>> vectorCostes = new ArrayList<>(); //Lista vectorCostes; 
 
     //private List<Integer> frecuenciasRtemp = new ArrayList<>(); //solución temporal
@@ -42,18 +42,17 @@ public class Grasp {
         frecuencias = _frecuencias.rangoFrecuencias;
         transmisores = _transmisores.transmisores;
         restricciones = _restricciones;
-        Random numero = new Random();
         resultado = Integer.MAX_VALUE;
-        for (int i = 0; i < 400; i++) {
+        for (int i = 0; i < transmisores.size(); i++) {
             frecuenciasR.add(0);
         }
 
         for (int i = 0; i < K; i++) {
-            int transmisor = numero.nextInt(transmisores.size());
+            int transmisor = NUMERO.nextInt(transmisores.size());
 //            System.out.println(transmisor);
             int tama = frecuencias.get(transmisores.get(transmisor)).size();
 
-            int frecuenciaAsig = frecuencias.get(transmisores.get(transmisor)).get(numero.nextInt(tama));
+            int frecuenciaAsig = frecuencias.get(transmisores.get(transmisor)).get(NUMERO.nextInt(tama));
 //            System.out.println(frecuenciaAsig);
             
             listaRestringida.add(transmisor);
@@ -63,15 +62,19 @@ public class Grasp {
         System.out.println("Generados los 10 primeros valores");
 
         // frecuenciasRtemp = frecuenciasR;
-        solucionInicial();
+        algoritmo();
         //resultado = rDiferencia(frecuenciasR, restricciones);
     }
 
-    private void solucionInicial() throws FileNotFoundException {
+    /**
+     * Construcción de la solución, comenzando por la solución incial.
+     * @throws FileNotFoundException 
+     */
+    private void algoritmo() throws FileNotFoundException {
         Random numero = new Random();
         int transmisor = 0;
         boolean fin = false;
-        while (transmisor < 400) {
+        while (transmisor < transmisores.size()) {
 
             if (!listaRestringida.contains(transmisor)) {
 
@@ -118,7 +121,7 @@ public class Grasp {
                 vCoste.add(2, valor);
                 vectorCostes.add(vCoste);
                 frecuenciasR.set(transmisor, frecuenciaR);
-                System.out.println("Transmisor:" + transmisor + " - " + frecuenciaR);
+//                System.out.println("Transmisor:" + transmisor + " - " + frecuenciaR);
 
             }
             transmisor++;
@@ -267,7 +270,7 @@ public class Grasp {
     }
 
     /**
-     * asigna una posicion a cada transmisor en función de su vectorCoste. Hasta
+     * Asigna una posicion a cada transmisor en función de su vectorCoste. Hasta
      * que no se visiten todos los transmisores que tienen un vectorCoste, se va
      * haciendo un ciclo for que los recorra comprobando si su coste es igual al
      * valor minimo, el cual se va incrementando en uno cada ciclo, y si es asi,
@@ -341,10 +344,11 @@ public class Grasp {
     }
 
     public void resultados() {
-        System.out.println("Coste: " + resultado);
+        
         for (int i = 0; i < transmisores.size(); i++) {
             System.out.println("Transmisor " + (i + 1) + ": " + frecuenciasR.get(i));
         }
+        System.out.println("Coste: " + resultado);
     }
 
 }

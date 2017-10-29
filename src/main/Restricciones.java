@@ -14,13 +14,15 @@ import java.util.List;
 import java.util.Scanner;
 
 /**
- *
+ * Estructura de datos que almacena las restricciones que deben satisfacer 
+ * los transmisores
  * @author juan
  */
 public class Restricciones {
 
     LinkedList<LinkedList<Integer>> restricciones = new LinkedList<>();
     private List<List<List<Integer>>> resTransmisor;
+
 
     public Restricciones() throws FileNotFoundException {
         int contador = 0;
@@ -84,6 +86,9 @@ public class Restricciones {
         return restriccionesTransmisor;
     }
 
+    /**
+     * Devuelve por pantalla todas las restricciones de todos los transmisores
+     */
     public void leerResultados() {
         for (int i = 0; i < restricciones.size(); i++) {
             System.out.println(restricciones.get(i).get(0) + " " + restricciones.get(i).get(1) + " "
