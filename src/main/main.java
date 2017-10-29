@@ -10,6 +10,9 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
+import java.nio.file.FileSystems;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.Random;
 import java.util.Scanner;
 
@@ -20,6 +23,7 @@ import java.util.Scanner;
 public class main {
 
     public static String DIRECTORIO;
+    public static String TRABAJO;
     public static Integer LINEAS;
     public static Random NUMERO;
     
@@ -34,11 +38,14 @@ public class main {
         NUMERO = new Random ();
         NUMERO.setSeed(3181827);
         
-        System.out.println("Directorio donde se encuentran los archivos: ");
+        TRABAJO = System.getProperty("user.dir");
+        System.out.println(TRABAJO);
+
+        System.out.println("Conjunto de archivos que quiere usar: ");
         Scanner reader = new Scanner(System.in);
         DIRECTORIO = reader.next();
         LINEAS = countLines(DIRECTORIO)+1;
-                
+        
         rangoFrec frecuencias = new rangoFrec();
         listaTransmisores transmisores = new listaTransmisores();
         Restricciones rest = new Restricciones();
@@ -77,7 +84,7 @@ public class main {
                         break;
                     case 5:
 
-                        System.out.println("Directorio donde se encuentran los archivos: ");
+                        System.out.println("Conjunto de archivos que quiere usar: ");
 
                         DIRECTORIO = reader.next();
                         LINEAS = countLines(DIRECTORIO)+1;
@@ -85,6 +92,7 @@ public class main {
                         frecuencias = new rangoFrec();
                         transmisores = new listaTransmisores();
                         rest = new Restricciones();
+                        break;
                     case 0:
                         System.out.println("Fin");
                         break;
@@ -102,7 +110,7 @@ public class main {
     }
     
     public static int countLines(String filename) throws IOException {
-    InputStream is = new BufferedInputStream(new FileInputStream("conjuntos/"+filename+"/var.txt"));
+    InputStream is = new BufferedInputStream(new FileInputStream(TRABAJO+"/conjuntos/"+filename+"/var.txt"));
     try {
         byte[] c = new byte[1024];
         int count = 0;

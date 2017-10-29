@@ -22,7 +22,7 @@ public class listaTransmisores
     public listaTransmisores() throws FileNotFoundException 
     {
         int contX = 0;
-        File file = new File ("conjuntos/"+main.DIRECTORIO+"/var.txt");
+        File file = new File (main.TRABAJO+"/conjuntos/"+main.DIRECTORIO+"/var.txt");
         Scanner archivo = new Scanner (file);
         while ( archivo.hasNextLine() )
         {

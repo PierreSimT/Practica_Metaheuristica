@@ -10,7 +10,6 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Random;
-import static main.main.NUMERO;
 
 /**
  *
@@ -27,7 +26,7 @@ public class Grasp {
     //private double vectorCostes [];
     private List<List<Integer>> vectorCostes = new ArrayList<>(); //Lista vectorCostes; 
 
-    private List<Integer> frecuenciasRtemp = new ArrayList<>(); //solución temporal
+    //private List<Integer> frecuenciasRtemp = new ArrayList<>(); //solución temporal
     private Restricciones restricciones;
     private int resultado;
 
@@ -43,33 +42,36 @@ public class Grasp {
         frecuencias = _frecuencias.rangoFrecuencias;
         transmisores = _transmisores.transmisores;
         restricciones = _restricciones;
+        Random numero = new Random();
         resultado = Integer.MAX_VALUE;
-        for (int i = 0; i < transmisores.size(); i++) {
+        for (int i = 0; i < 400; i++) {
             frecuenciasR.add(0);
         }
 
         for (int i = 0; i < K; i++) {
-            int transmisor = NUMERO.nextInt(transmisores.size());
+            int transmisor = numero.nextInt(transmisores.size());
+//            System.out.println(transmisor);
             int tama = frecuencias.get(transmisores.get(transmisor)).size();
-            int frecuenciaAsig = frecuencias.get(transmisores.get(transmisor)).get(NUMERO.nextInt(tama));
-//            List<Integer> vCoste = new ArrayList<>();
-//            vCoste.add(0, transmisor);
-//            vCoste.add(1, frecuenciaAsig);
-//            vCoste.add(2, )
+
+            int frecuenciaAsig = frecuencias.get(transmisores.get(transmisor)).get(numero.nextInt(tama));
+//            System.out.println(frecuenciaAsig);
+            
             listaRestringida.add(transmisor);
             frecuenciasR.set(transmisor, frecuenciaAsig);
         }
 
-        frecuenciasRtemp = frecuenciasR;
+        System.out.println("Generados los 10 primeros valores");
+
+        // frecuenciasRtemp = frecuenciasR;
         solucionInicial();
-        resultado = rDiferencia(frecuenciasR, restricciones);
+        //resultado = rDiferencia(frecuenciasR, restricciones);
     }
 
     private void solucionInicial() throws FileNotFoundException {
         Random numero = new Random();
         int transmisor = 0;
         boolean fin = false;
-        while (transmisor < transmisores.size() ) {
+        while (transmisor < 400) {
 
             if (!listaRestringida.contains(transmisor)) {
 
@@ -86,7 +88,7 @@ public class Grasp {
                     List<Integer> nuevaLista = new ArrayList<>();
                     nuevaLista.addAll(frecuenciasR);
 
-                    frecuencia = frecuencias.get(transmisores.get(transmisor)).get(pos++);
+                    frecuencia = frecuencias.get(transmisores.get(transmisor)).get(pos);
                     nuevaLista.set(transmisor, frecuencia);
                     List<List<Integer>> listaRest = compruebaTransmisores(transmisor);
 
@@ -108,6 +110,7 @@ public class Grasp {
                         valor = 0;
                         encontrado = true;
                     }
+                    pos++;
                 }
                 List<Integer> vCoste = new ArrayList<>();
                 vCoste.add(0, transmisor);
@@ -115,6 +118,8 @@ public class Grasp {
                 vCoste.add(2, valor);
                 vectorCostes.add(vCoste);
                 frecuenciasR.set(transmisor, frecuenciaR);
+                System.out.println("Transmisor:" + transmisor + " - " + frecuenciaR);
+
             }
             transmisor++;
         }
@@ -162,9 +167,8 @@ public class Grasp {
                 }
             }
         }
-        System.out.println("Transmisor: "+transmisorElegido);
-        System.out.println("Frecuencia: "+frecuenciaAsignada);
-        
+        System.out.println("Transmisor: " + transmisorElegido);
+        System.out.println("Frecuencia: " + frecuenciaAsignada);
 
     }
 
@@ -181,7 +185,7 @@ public class Grasp {
         List<List<Integer>> listaRest = new ArrayList<>();
         List<List<Integer>> listaT = restricciones.restriccionesTransmisor(transmisor);
         for (int i = 0; i < listaT.size(); i++) {
-            if (frecuenciasR.get(listaT.get(i).get(0)-1) != 0 || frecuenciasR.get(listaT.get(i).get(1)-1) != 0) {
+            if (frecuenciasR.get(listaT.get(i).get(0) - 1) != 0 || frecuenciasR.get(listaT.get(i).get(1) - 1) != 0) {
                 listaRest.add(new LinkedList<>());
                 listaRest.get(contador++).addAll(listaT.get(i));
             }
@@ -287,7 +291,7 @@ public class Grasp {
         int i;
         while (transmisoresVisitados != vectorCostes.size()) {
             contador = 0;
-            for ( i = 0; i < vectorCostes.size(); i++) {
+            for (i = 0; i < vectorCostes.size(); i++) {
                 if (vectorCostes.get(i).get(1) == valorMin) {
                     List<Double> vPos = new ArrayList<>();
                     vPos.add(0, (double) vectorCostes.get(i).get(0));
