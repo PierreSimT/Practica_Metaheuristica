@@ -24,7 +24,7 @@ public class Restricciones {
 
     public Restricciones() throws FileNotFoundException {
         int contador = 0;
-        File fichero = new File("conjuntos/" + main.DIRECTORIO + "/ctr.txt");
+        File fichero = new File(main.TRABAJO+"/conjuntos/" + main.DIRECTORIO + "/ctr.txt");
         Scanner lectura = new Scanner(fichero);
         int[] contadores = new int[main.LINEAS];
         Arrays.fill(contadores, 0);
