@@ -27,7 +27,7 @@ public class Grasp {
     //private double vectorCostes [];
     private List<List<Integer>> vectorCostes = new ArrayList<>(); //Lista vectorCostes; 
 
-    private List<Integer> frecuenciasRtemp = new ArrayList<>(); //solución temporal
+    //private List<Integer> frecuenciasRtemp = new ArrayList<>(); //solución temporal
     private Restricciones restricciones;
     private int resultado;
 
@@ -51,15 +51,24 @@ public class Grasp {
 
         for (int i = 0; i < K; i++) {
             int transmisor = numero.nextInt(transmisores.size());
+            System.out.println(transmisor);
             int tama = frecuencias.get(transmisores.get(transmisor)).size();
+
             int frecuenciaAsig = frecuencias.get(transmisores.get(transmisor)).get(numero.nextInt(tama));
+            System.out.println(frecuenciaAsig);
+//            List<Integer> vCoste = new ArrayList<>();
+//            vCoste.add(0, transmisor);
+//            vCoste.add(1, frecuenciaAsig);
+//            vCoste.add(2, )
             listaRestringida.add(transmisor);
             frecuenciasR.set(transmisor, frecuenciaAsig);
         }
 
-        frecuenciasRtemp = frecuenciasR;
+        System.out.println("Generados los 10 primeros valores");
+
+        // frecuenciasRtemp = frecuenciasR;
         solucionInicial();
-        resultado = rDiferencia(frecuenciasR, restricciones);
+        //resultado = rDiferencia(frecuenciasR, restricciones);
     }
 
     private void solucionInicial() throws FileNotFoundException {
@@ -83,7 +92,7 @@ public class Grasp {
                     List<Integer> nuevaLista = new ArrayList<>();
                     nuevaLista.addAll(frecuenciasR);
 
-                    frecuencia = frecuencias.get(transmisores.get(transmisor)).get(pos++);
+                    frecuencia = frecuencias.get(transmisores.get(transmisor)).get(pos);
                     nuevaLista.set(transmisor, frecuencia);
                     List<List<Integer>> listaRest = compruebaTransmisores(transmisor);
 
@@ -105,13 +114,16 @@ public class Grasp {
                         valor = 0;
                         encontrado = true;
                     }
+                    pos++;
                 }
                 List<Integer> vCoste = new ArrayList<>();
                 vCoste.add(0, transmisor);
                 vCoste.add(1, frecuenciaR);
                 vCoste.add(2, valor);
                 vectorCostes.add(vCoste);
-                //frecuenciasR.set(transmisor, frecuenciaR);
+                frecuenciasR.set(transmisor, frecuenciaR);
+                System.out.println("Transmisor:" + transmisor + " - " + frecuenciaR);
+
             }
             transmisor++;
         }
@@ -127,7 +139,7 @@ public class Grasp {
         //Calculamos el sesgo definitivo
         for (int i = 0; i < vectorPosicion.size(); i++) {
             double probabilidad = (1 / vectorPosicion.get(i).get(1)) / sumaPorcentajes;
-            vectorPosicion.get(i).set(3, probabilidad);
+            vectorPosicion.get(i).add(3, probabilidad);
         }
 
         //Ahora tenemos en la posicion 3 asignada la probabilidad de cada transmisor.
@@ -138,7 +150,7 @@ public class Grasp {
         double probabilidadAcumulada = 0;
         for (int i = 0; i < vectorFinal.size(); i++) {
             probabilidadAcumulada += vectorFinal.get(i).get(3);
-            vectorFinal.get(i).set(4, probabilidadAcumulada);
+            vectorFinal.get(i).add(4, probabilidadAcumulada);
 
         }
 
@@ -159,9 +171,8 @@ public class Grasp {
                 }
             }
         }
-        System.out.println("Transmisor: "+transmisorElegido);
-        System.out.println("Frecuencia: "+frecuenciaAsignada);
-        
+        System.out.println("Transmisor: " + transmisorElegido);
+        System.out.println("Frecuencia: " + frecuenciaAsignada);
 
     }
 
@@ -177,8 +188,8 @@ public class Grasp {
         int contador = 0;
         List<List<Integer>> listaRest = new ArrayList<>();
         List<List<Integer>> listaT = restricciones.restriccionesTransmisor(transmisor);
-        for (int i = 0; i < listaT.size() - 1; i++) {
-            if (frecuenciasR.get(listaT.get(i).get(0)) != 0 || frecuenciasR.get(listaT.get(i).get(1)) != 0) {
+        for (int i = 0; i < listaT.size(); i++) {
+            if (frecuenciasR.get(listaT.get(i).get(0) - 1) != 0 || frecuenciasR.get(listaT.get(i).get(1) - 1) != 0) {
                 listaRest.add(new LinkedList<>());
                 listaRest.get(contador++).addAll(listaT.get(i));
             }
@@ -281,14 +292,16 @@ public class Grasp {
         int posicion = 1;
         int contador = 0;
         int transmisoresVisitados = 0;
+        int i;
         while (transmisoresVisitados != vectorCostes.size()) {
-            for (int i = 0; i < vectorCostes.size(); i++) {
+            contador = 0;
+            for (i = 0; i < vectorCostes.size(); i++) {
                 if (vectorCostes.get(i).get(1) == valorMin) {
                     List<Double> vPos = new ArrayList<>();
                     vPos.add(0, (double) vectorCostes.get(i).get(0));
                     vPos.add(1, (double) vectorCostes.get(i).get(1));
                     vPos.add(2, (double) posicion);
-                    vectorPosicion.set(transmisoresVisitados, vPos);
+                    vectorPosicion.add(transmisoresVisitados, vPos);
 
                     transmisoresVisitados++;
                     contador++;
