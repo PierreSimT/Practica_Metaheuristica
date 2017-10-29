@@ -72,10 +72,10 @@ public class BusquedaLocal {
                         nuevaSolucion.addAll(frecuenciasR);
                         nuevaSolucion.set(token, valorInicial);
                         int fact2 = rDiferencia(nuevaSolucion, token, rest);
-                        nuevoCoste = resultado - fact1 + fact2;
+                        nuevoCoste = resultado + (fact2 - fact1);
 
                         if (nuevoCoste < resultado) {
-                            frecuenciasR = nuevaSolucion;
+                            frecuenciasR.set(token, valorInicial);
                             resultado = nuevoCoste;
                             encontrado = true;
                         }
@@ -90,10 +90,10 @@ public class BusquedaLocal {
                         nuevaSolucion.addAll(frecuenciasR);
                         nuevaSolucion.set(token, valorInicial);
                         int fact2 = rDiferencia(nuevaSolucion, token, rest);
-                        nuevoCoste = resultado - fact1 + fact2;
+                        nuevoCoste = resultado + (fact2 - fact1);
 
                         if (nuevoCoste < resultado) {
-                            frecuenciasR = nuevaSolucion;
+                            frecuenciasR.set(token, valorInicial);
                             resultado = nuevoCoste;
                             encontrado = true;
                         }
@@ -147,7 +147,7 @@ public class BusquedaLocal {
             int tr1 = listaRest.get(i).get(0);
             int tr2 = listaRest.get(i).get(1);
 
-            if (tr1 == cambioTransmisor || tr2 == cambioTransmisor) {
+            if (tr1 == cambioTransmisor+1 || tr2 == cambioTransmisor+1 ) {
                 int diferencia = listaRest.get(i).get(2);
                 int result = listaRest.get(i).get(3);
 

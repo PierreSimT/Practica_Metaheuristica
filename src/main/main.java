@@ -57,12 +57,13 @@ public class main {
                         BusquedaLocal busquedaLocal = new BusquedaLocal(transmisores, frecuencias, rest);
                         busquedaLocal.algoritmo();
                         busquedaLocal.resultados();
-
+                        System.out.println(busquedaLocal.rDiferencia(busquedaLocal.frecuenciasR, rest));
                         break;
                     case 3:
                         BusquedaTabu busquedaTabu = new BusquedaTabu(transmisores, frecuencias, rest);
                         busquedaTabu.algoritmo();
                         busquedaTabu.resultados();
+                        System.out.println(busquedaTabu.rDiferencia(busquedaTabu.frecuenciasR, rest));
                         break;
                     case 4:
                         Grasp grasp = new Grasp(transmisores, frecuencias, rest);

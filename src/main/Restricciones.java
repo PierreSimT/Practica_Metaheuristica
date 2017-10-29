@@ -57,10 +57,10 @@ public class Restricciones {
 
                     restricciones.add(contador, datos);
 
-                    resTransmisor.get(tr1 - 1).add(new ArrayList());
-                    resTransmisor.get(tr1 - 1).get(contadores[tr1 - 1]++).addAll(datos);
-                    resTransmisor.get(tr2 - 1).add(new ArrayList());
-                    resTransmisor.get(tr2 - 1).get(contadores[tr2 - 1]++).addAll(datos);
+                    resTransmisor.get(tr1-1).add(new ArrayList());
+                    resTransmisor.get(tr1-1).get(contadores[tr1 - 1]++).addAll(datos);
+                    resTransmisor.get(tr2-1).add(new ArrayList());
+                    resTransmisor.get(tr2-1).get(contadores[tr2 - 1]++).addAll(datos);
                     contador++;
                 }
                 sLinea.close();
