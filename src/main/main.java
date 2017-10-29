@@ -37,7 +37,7 @@ public class main {
 
         while (select != 0) {
 
-            try {
+//            try {
                 System.out.print("Elige opción:\n1.- Greedy"
                         + "\n2.- Búsqueda Local\n"
                         + "3.- Búsqueda Tabúr\n"
@@ -87,9 +87,9 @@ public class main {
 
                 System.out.println("\n"); //Mostrar un salto de línea en Java
 
-            } catch (Exception e) {
-                System.out.println("Uoop! Error! " + e.toString());
-            }
+//            } catch (Exception e) {
+//                System.out.println("Uoop! Error! " + e.toString());
+//            }
         }
     }
 

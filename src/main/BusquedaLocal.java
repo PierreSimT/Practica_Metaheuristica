@@ -164,10 +164,11 @@ public class BusquedaLocal {
     }
 
     public void resultados() {
-        System.out.println("Coste: " + resultado);
+        
         for (int i = 0; i < transmisores.size(); i++) {
             System.out.println("Transmisor " + (i + 1) + ": " + frecuenciasR.get(i));
         }
+        System.out.println("Coste: " + resultado);
     }
 
 }

@@ -41,6 +41,7 @@ public class BusquedaTabu {
         tamaFisicolt = (int) transmisores.size() / 6;
 
         Random numero = new Random();
+        numero.setSeed(3181827);
         resultado = Integer.MAX_VALUE;
         for (int i = 0; i < transmisores.size(); i++) {
             frecuenciasR.add(frecuencias.get(transmisores.get(i)).get(numero.nextInt(frecuencias.get(transmisores.get(i)).size())));
@@ -145,7 +146,7 @@ public class BusquedaTabu {
                         iteraciones++;
                     }
                 }
-                System.out.println(i + " : Resultado actual: " + resultado);
+ //               System.out.println(i + " : Resultado actual: " + resultado);
 
                 /*Añadir a matriz de frecuencias*/
                 boolean encontrado = false;
@@ -303,10 +304,11 @@ public class BusquedaTabu {
     }
 
     public void resultados() {
-        System.out.println("Coste: " + resultado);
+        
         for (int i = 0; i < transmisores.size(); i++) {
             System.out.println("Transmisor " + (i + 1) + ": " + frecuenciasR.get(i));
         }
+        System.out.println("Coste: " + resultado);
     }
 
 }
