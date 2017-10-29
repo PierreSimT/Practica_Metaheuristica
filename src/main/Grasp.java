@@ -25,7 +25,6 @@ public class Grasp {
     private List<Integer> listaRestringida = new ArrayList<>();
     private List<Integer> frecuenciasR = new ArrayList<>();
     private List<List<Integer>> vectorCostes = new ArrayList<>(); //Lista vectorCostes; 
-
     //private List<Integer> frecuenciasRtemp = new ArrayList<>(); //solución temporal
     private Restricciones restricciones;
     private int resultado;
@@ -46,7 +45,9 @@ public class Grasp {
         for (int i = 0; i < transmisores.size(); i++) {
             frecuenciasR.add(0);
         }
-
+        
+        
+        
     }
 
     /**
@@ -54,28 +55,8 @@ public class Grasp {
      *
      * @throws FileNotFoundException
      */
-    private void algoritmo() throws FileNotFoundException 
+    public void algoritmo() throws FileNotFoundException 
     {
-        while ( frecuenciasR.size() < transmisores.size() ) {
-            for (int i = 0; i < K; i++) {
-                int transmisor = NUMERO.nextInt(transmisores.size());
-                int tama = frecuencias.get(transmisores.get(transmisor)).size();
-
-                int frecuenciaAsig = frecuencias.get(transmisores.get(transmisor)).get(NUMERO.nextInt(tama));
-                
-                listaRestringida.add(transmisor);
-                frecuenciasR.set(transmisor, frecuenciaAsig);
-                        
-            }
-            
-            List<Integer> vCoste = new ArrayList<>();
-            vCoste.add(0, transmisor);
-            vCoste.add(1, frecuenciaAsig);
-            vCoste.add(2, valor);
-            vectorCostes.add(vCoste);
-            
-        }
-/*
         System.out.println("Generados los 10 primeros valores");
 
         // frecuenciasRtemp = frecuenciasR;
@@ -137,52 +118,64 @@ public class Grasp {
             transmisor++;
         }
 
-        //Ahora mismo tenemos una solución "temporal" generada aleatoriamente y un vectorCostes relleno
-        List<List<Double>> vectorPosicion = asignarPosicion(vectorCostes);
-        int sumaPorcentajes = 0;
+        // Tenemos una solucion temporal, se intenta optimizar
+        List<List<Float>> vectorPosicion = asignarPosicion(vectorCostes);
+        float sumaSesgo = 0;
         for (int i = 0; i < vectorPosicion.size(); i++) {
-            double porcentaje = (1 / vectorPosicion.get(i).get(2));
-            sumaPorcentajes += porcentaje;
+            float sesgos = (1 / vectorPosicion.get(i).get(2));
+            sumaSesgo += sesgos;
         }
 
         //Calculamos el sesgo definitivo
         for (int i = 0; i < vectorPosicion.size(); i++) {
-            double probabilidad = (1 / vectorPosicion.get(i).get(1)) / sumaPorcentajes;
+            float probabilidad = (1 / vectorPosicion.get(i).get(2)) / sumaSesgo;
             vectorPosicion.get(i).add(3, probabilidad);
         }
 
         //Ahora tenemos en la posicion 3 asignada la probabilidad de cada transmisor.
         //Con tablaSesgoFinal creo una nueva estructura de datos que tenga los transmisores ordenados
         //en función de su valor en posición
-        List<List<Double>> vectorFinal = tablaSesgoFinal(vectorPosicion);
+        List<List<Float>> vectorFinal = tablaSesgoFinal(vectorPosicion);
 
-        double probabilidadAcumulada = 0;
+        float probabilidadAcumulada = 0;
         for (int i = 0; i < vectorFinal.size(); i++) {
             probabilidadAcumulada += vectorFinal.get(i).get(3);
             vectorFinal.get(i).add(4, probabilidadAcumulada);
-
         }
 
-        double aleatorio = numero.nextDouble();
-        double transmisorElegido = 0;
-        double frecuenciaAsignada = 0;
-
-        for (int i = 0; i < vectorFinal.size(); i++) {
-            if (i == 0) {
-                if (aleatorio > 0 && aleatorio < vectorFinal.get(i).get(4)) {
-                    transmisorElegido = vectorFinal.get(i).get(0);
-                    frecuenciaAsignada = vectorFinal.get(i).get(1);
-                }
-            } else {
-                if (aleatorio > vectorFinal.get(i - 1).get(4) && aleatorio < vectorFinal.get(i).get(4)) {
-                    transmisorElegido = vectorFinal.get(i).get(0);
-                    frecuenciaAsignada = vectorFinal.get(i).get(1);
-                }
+        float aleatorio = numero.nextFloat();
+        float distancia = Integer.MAX_VALUE;
+        float transmisorElegido = 0;
+        float frecuenciaAsignada = 0;
+            
+        for ( int i = 0; i < vectorFinal.size(); i++ ){
+            float nDistancia = Math.abs(vectorFinal.get(i).get(4) - aleatorio);
+            if ( nDistancia < distancia ) {
+                distancia = nDistancia;
+                transmisorElegido = i;
+                frecuenciaAsignada = vectorFinal.get(i).get(1);
             }
         }
-        System.out.println("Transmisor: " + transmisorElegido);
-        System.out.println("Frecuencia: " + frecuenciaAsignada);
-*/
+        
+        busquedaSolucion(transmisorElegido);
+
+        
+//
+//        for (int i = 0; i < vectorFinal.size(); i++) {
+//            if (i == 0) {
+//                if (aleatorio > 0 && aleatorio < vectorFinal.get(i).get(4)) {
+//                    transmisorElegido = vectorFinal.get(i).get(0);
+//                    frecuenciaAsignada = vectorFinal.get(i).get(1);
+//                }
+//            } else {
+//                if (aleatorio > vectorFinal.get(i - 1).get(4) && aleatorio < vectorFinal.get(i).get(4)) {
+//                    transmisorElegido = vectorFinal.get(i).get(0);
+//                    frecuenciaAsignada = vectorFinal.get(i).get(1);
+//                }
+//            }
+//        }
+//        System.out.println("Transmisor: " + transmisorElegido);
+//        System.out.println("Frecuencia: " + frecuenciaAsignada);
     }
 
     /**
@@ -295,8 +288,8 @@ public class Grasp {
      * valor posición según la calidad de su coste
      *
      */
-    public List<List<Double>> asignarPosicion(List<List<Integer>> vectorCostes) {
-        List<List<Double>> vectorPosicion = new ArrayList<>();
+    public List<List<Float>> asignarPosicion(List<List<Integer>> vectorCostes) {
+        List<List<Float>> vectorPosicion = new ArrayList<>();
         int valorMin = 0;
         int posicion = 1;
         int contador = 0;
@@ -306,10 +299,10 @@ public class Grasp {
             contador = 0;
             for (i = 0; i < vectorCostes.size(); i++) {
                 if (vectorCostes.get(i).get(1) == valorMin) {
-                    List<Double> vPos = new ArrayList<>();
-                    vPos.add(0, (double) vectorCostes.get(i).get(0));
-                    vPos.add(1, (double) vectorCostes.get(i).get(1));
-                    vPos.add(2, (double) posicion);
+                    List<Float> vPos = new ArrayList<>();
+                    vPos.add(0, (float) vectorCostes.get(i).get(0));
+                    vPos.add(1, (float) vectorCostes.get(i).get(1));
+                    vPos.add(2, (float) posicion);
                     vectorPosicion.add(transmisoresVisitados, vPos);
 
                     transmisoresVisitados++;
@@ -333,8 +326,8 @@ public class Grasp {
      * valor posición según la calidad de su coste
      *
      */
-    public List<List<Double>> tablaSesgoFinal(List<List<Double>> vectorPosicion) {
-        List<List<Double>> vectorPosFinal = new ArrayList<>();
+    public List<List<Float>> tablaSesgoFinal(List<List<Float>> vectorPosicion) {
+        List<List<Float>> vectorPosFinal = new ArrayList<>();
         int posicionActual = 1;
         int transmisoresVisitados = 0;
         while (transmisoresVisitados != vectorPosicion.size()) {

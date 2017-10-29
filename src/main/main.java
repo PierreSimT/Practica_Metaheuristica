@@ -81,6 +81,7 @@ public class main {
                         break;
                     case 4:
                         Grasp grasp = new Grasp(transmisores, frecuencias, rest);
+                        grasp.algoritmo();
                         grasp.resultados();
                         break;
                     case 5:
