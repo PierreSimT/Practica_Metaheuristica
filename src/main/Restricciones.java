@@ -9,11 +9,9 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Scanner;
-import java.util.Random;
 
 /**
  *
@@ -22,16 +20,17 @@ import java.util.Random;
 public class Restricciones {
 
     LinkedList<LinkedList<Integer>> restricciones = new LinkedList<>();
-    private List<List<List<Integer>>> resTransmisor = new ArrayList<>();
+    private List<List<List<Integer>>> resTransmisor;
 
     public Restricciones() throws FileNotFoundException {
         int contador = 0;
         File fichero = new File("conjuntos/" + main.DIRECTORIO + "/ctr.txt");
         Scanner lectura = new Scanner(fichero);
-        int[] contadores = new int[400];
+        int[] contadores = new int[main.LINEAS];
         Arrays.fill(contadores, 0);
-
-        for (int i = 0; i < 400; i++) {
+        
+        resTransmisor = new ArrayList<>();
+        for (int i = 0; i < main.LINEAS; i++) {
             resTransmisor.add(new ArrayList<>());
         }
 

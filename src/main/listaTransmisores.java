@@ -26,14 +26,16 @@ public class listaTransmisores
         Scanner archivo = new Scanner (file);
         while ( archivo.hasNextLine() )
         {
+            contX = 0;
             String line = archivo.nextLine();
             Scanner linea = new Scanner(line);
             linea.nextInt();
-            while ( linea.hasNext() )
+            while ( linea.hasNext() && contX < 1 )
             {
                 int token = linea.nextInt();
                 transmisores.add(token);
-            }    
+                contX++;
+            }  
             linea.close();
         }
         archivo.close();

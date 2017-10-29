@@ -8,7 +8,7 @@ package main;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
+import static main.main.NUMERO;
 
 /**
  *
@@ -26,10 +26,9 @@ public class Greedy {
         frecuencias = _frecuencias.rangoFrecuencias;
         transmisores = _transmisores.transmisores;
         rest = _restricciones;
-        Random numero = new Random();
 
         for (int i = 0; i < transmisores.size(); i++) {
-            frecuenciasR.add(frecuencias.get(transmisores.get(i)).get(numero.nextInt(frecuencias.get(transmisores.get(i)).size())));
+            frecuenciasR.add(frecuencias.get(transmisores.get(i)).get(NUMERO.nextInt(frecuencias.get(transmisores.get(i)).size())));
         }
 
         resultado = rDiferencia(frecuenciasR, rest);

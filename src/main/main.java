@@ -5,9 +5,12 @@
  */
 package main;
 
-import java.io.File;
+import java.io.BufferedInputStream;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.util.Scanner;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.Random;
 import java.util.Scanner;
 
 /**
@@ -17,20 +20,25 @@ import java.util.Scanner;
 public class main {
 
     public static String DIRECTORIO;
-
+    public static Integer LINEAS;
+    public static Random NUMERO;
+    
     //Variables para el menu
     static Scanner scanner = new Scanner(System.in);
     static int select = -1;
-
+    
     /**
      * @param args the command line arguments
      */
-    public static void main(String[] args) throws FileNotFoundException {
-
+    public static void main(String[] args) throws FileNotFoundException, IOException {
+        NUMERO = new Random ();
+        NUMERO.setSeed(3181827);
+        
         System.out.println("Directorio donde se encuentran los archivos: ");
         Scanner reader = new Scanner(System.in);
         DIRECTORIO = reader.next();
-
+        LINEAS = countLines(DIRECTORIO)+1;
+                
         rangoFrec frecuencias = new rangoFrec();
         listaTransmisores transmisores = new listaTransmisores();
         Restricciones rest = new Restricciones();
@@ -57,13 +65,11 @@ public class main {
                         BusquedaLocal busquedaLocal = new BusquedaLocal(transmisores, frecuencias, rest);
                         busquedaLocal.algoritmo();
                         busquedaLocal.resultados();
-                        System.out.println(busquedaLocal.rDiferencia(busquedaLocal.frecuenciasR, rest));
                         break;
                     case 3:
                         BusquedaTabu busquedaTabu = new BusquedaTabu(transmisores, frecuencias, rest);
                         busquedaTabu.algoritmo();
                         busquedaTabu.resultados();
-                        System.out.println(busquedaTabu.rDiferencia(busquedaTabu.frecuenciasR, rest));
                         break;
                     case 4:
                         Grasp grasp = new Grasp(transmisores, frecuencias, rest);
@@ -74,7 +80,8 @@ public class main {
                         System.out.println("Directorio donde se encuentran los archivos: ");
 
                         DIRECTORIO = reader.next();
-
+                        LINEAS = countLines(DIRECTORIO)+1;
+                        
                         frecuencias = new rangoFrec();
                         transmisores = new listaTransmisores();
                         rest = new Restricciones();
@@ -93,5 +100,26 @@ public class main {
 //            }
         }
     }
+    
+    public static int countLines(String filename) throws IOException {
+    InputStream is = new BufferedInputStream(new FileInputStream("conjuntos/"+filename+"/var.txt"));
+    try {
+        byte[] c = new byte[1024];
+        int count = 0;
+        int readChars = 0;
+        boolean empty = true;
+        while ((readChars = is.read(c)) != -1) {
+            empty = false;
+            for (int i = 0; i < readChars; ++i) {
+                if (c[i] == '\n') {
+                    ++count;
+                }
+            }
+        }
+        return (count == 0 && !empty) ? 1 : count;
+    } finally {
+        is.close();
+    }
+}
 
 }

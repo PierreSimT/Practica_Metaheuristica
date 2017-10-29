@@ -10,7 +10,6 @@ import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
-import java.util.Random;
 
 /**
  *
@@ -28,7 +27,6 @@ public class rangoFrec
         Scanner archivo = new Scanner (file);
         while ( archivo.hasNextLine() )
         {
-            int contY = 0;
             rangoFrecuencias.add(new ArrayList<Integer>());
             String line = archivo.nextLine();
             Scanner lineScanner = new Scanner (line);

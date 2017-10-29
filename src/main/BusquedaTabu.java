@@ -9,6 +9,7 @@ import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+import static main.main.NUMERO;
 
 /**
  *
@@ -40,11 +41,9 @@ public class BusquedaTabu {
 
         tamaFisicolt = (int) transmisores.size() / 6;
 
-        Random numero = new Random();
-        numero.setSeed(3181827);
         resultado = Integer.MAX_VALUE;
         for (int i = 0; i < transmisores.size(); i++) {
-            frecuenciasR.add(frecuencias.get(transmisores.get(i)).get(numero.nextInt(frecuencias.get(transmisores.get(i)).size())));
+            frecuenciasR.add(frecuencias.get(transmisores.get(i)).get(NUMERO.nextInt(frecuencias.get(transmisores.get(i)).size())));
         }
         
         
@@ -263,7 +262,7 @@ public class BusquedaTabu {
    A cada transmisor le asocio la frecuencia registrada en matrizFrecuencias que tenga el mayor
    número de repeticiones
      */
-    public void pasarMatrizFrecuencias() {
+    public void pasarMatrizFrecuencias() throws FileNotFoundException {
         List<Integer> nFrecR = new ArrayList<>();
         int frec;
         int numRepeticiones;
@@ -279,7 +278,9 @@ public class BusquedaTabu {
             nFrecR.add(i, frec);
         }
 
-        frecuenciasR = nFrecR;
+        frecuenciasR.clear();
+        frecuenciasR.addAll(nFrecR);
+        resultado = rDiferencia(frecuenciasR, rest);
 
     }
 

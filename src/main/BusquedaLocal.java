@@ -5,13 +5,11 @@
  */
 package main;
 
-import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Random;
-import java.util.Scanner;
+import static main.main.NUMERO;
 
 /**
  *
@@ -29,11 +27,9 @@ public class BusquedaLocal {
         frecuencias = _frecuencias.rangoFrecuencias;
         transmisores = _transmisores.transmisores;
         rest = _restricciones;
-        Random numero = new Random();
-        numero.setSeed(3181827);
         resultado = Integer.MAX_VALUE;
         for (int i = 0; i < transmisores.size(); i++) {
-            frecuenciasR.add(frecuencias.get(transmisores.get(i)).get(numero.nextInt(frecuencias.get(transmisores.get(i)).size())));
+            frecuenciasR.add(frecuencias.get(transmisores.get(i)).get(NUMERO.nextInt(frecuencias.get(transmisores.get(i)).size())));
         }
     }
 

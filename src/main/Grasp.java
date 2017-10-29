@@ -7,10 +7,10 @@ package main;
 
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Random;
+import static main.main.NUMERO;
 
 /**
  *
@@ -43,16 +43,15 @@ public class Grasp {
         frecuencias = _frecuencias.rangoFrecuencias;
         transmisores = _transmisores.transmisores;
         restricciones = _restricciones;
-        Random numero = new Random();
         resultado = Integer.MAX_VALUE;
-        for (int i = 0; i < 400; i++) {
+        for (int i = 0; i < transmisores.size(); i++) {
             frecuenciasR.add(0);
         }
 
         for (int i = 0; i < K; i++) {
-            int transmisor = numero.nextInt(transmisores.size());
+            int transmisor = NUMERO.nextInt(transmisores.size());
             int tama = frecuencias.get(transmisores.get(transmisor)).size();
-            int frecuenciaAsig = frecuencias.get(transmisores.get(transmisor)).get(numero.nextInt(tama));
+            int frecuenciaAsig = frecuencias.get(transmisores.get(transmisor)).get(NUMERO.nextInt(tama));
 //            List<Integer> vCoste = new ArrayList<>();
 //            vCoste.add(0, transmisor);
 //            vCoste.add(1, frecuenciaAsig);
@@ -70,7 +69,7 @@ public class Grasp {
         Random numero = new Random();
         int transmisor = 0;
         boolean fin = false;
-        while (transmisor < 400) {
+        while (transmisor < transmisores.size() ) {
 
             if (!listaRestringida.contains(transmisor)) {
 
