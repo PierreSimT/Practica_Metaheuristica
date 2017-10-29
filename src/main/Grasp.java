@@ -47,30 +47,40 @@ public class Grasp {
             frecuenciasR.add(0);
         }
 
-        for (int i = 0; i < K; i++) {
-            int transmisor = NUMERO.nextInt(transmisores.size());
-//            System.out.println(transmisor);
-            int tama = frecuencias.get(transmisores.get(transmisor)).size();
-
-            int frecuenciaAsig = frecuencias.get(transmisores.get(transmisor)).get(NUMERO.nextInt(tama));
-//            System.out.println(frecuenciaAsig);
-            
-            listaRestringida.add(transmisor);
-            frecuenciasR.set(transmisor, frecuenciaAsig);
-        }
-
-        System.out.println("Generados los 10 primeros valores");
-
-        // frecuenciasRtemp = frecuenciasR;
-        algoritmo();
-        //resultado = rDiferencia(frecuenciasR, restricciones);
     }
 
     /**
      * Construcción de la solución, comenzando por la solución incial.
-     * @throws FileNotFoundException 
+     *
+     * @throws FileNotFoundException
      */
-    private void algoritmo() throws FileNotFoundException {
+    private void algoritmo() throws FileNotFoundException 
+    {
+        while ( frecuenciasR.size() < transmisores.size() ) {
+            for (int i = 0; i < K; i++) {
+                int transmisor = NUMERO.nextInt(transmisores.size());
+                int tama = frecuencias.get(transmisores.get(transmisor)).size();
+
+                int frecuenciaAsig = frecuencias.get(transmisores.get(transmisor)).get(NUMERO.nextInt(tama));
+                
+                listaRestringida.add(transmisor);
+                frecuenciasR.set(transmisor, frecuenciaAsig);
+                        
+            }
+            
+            List<Integer> vCoste = new ArrayList<>();
+            vCoste.add(0, transmisor);
+            vCoste.add(1, frecuenciaAsig);
+            vCoste.add(2, valor);
+            vectorCostes.add(vCoste);
+            
+        }
+/*
+        System.out.println("Generados los 10 primeros valores");
+
+        // frecuenciasRtemp = frecuenciasR;
+//        algoritmo();
+        //resultado = rDiferencia(frecuenciasR, restricciones);
         Random numero = new Random();
         int transmisor = 0;
         boolean fin = false;
@@ -172,7 +182,7 @@ public class Grasp {
         }
         System.out.println("Transmisor: " + transmisorElegido);
         System.out.println("Frecuencia: " + frecuenciaAsignada);
-
+*/
     }
 
     /**
@@ -344,7 +354,7 @@ public class Grasp {
     }
 
     public void resultados() {
-        
+
         for (int i = 0; i < transmisores.size(); i++) {
             System.out.println("Transmisor " + (i + 1) + ": " + frecuenciasR.get(i));
         }
