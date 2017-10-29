@@ -46,6 +46,9 @@ public class main {
         listaTransmisores transmisores = new listaTransmisores();
         Restricciones rest = new Restricciones();
 
+        float startTime;
+        float endTime;
+        float duration;
         while (select != 0) {
 
 //            try {
@@ -65,24 +68,34 @@ public class main {
                         greedy.resultados();
                         break;
                     case 2:
-                        float startTime = System.nanoTime();
+                        startTime = System.nanoTime();
                         BusquedaLocal busquedaLocal = new BusquedaLocal(transmisores, frecuencias, rest);
                         busquedaLocal.algoritmo();
-                        float endTime = System.nanoTime();
+                        endTime = System.nanoTime();
                         busquedaLocal.resultados();
                         
-                        float duration = (endTime - startTime)/ 1000000000;
+                        duration = (endTime - startTime)/ 1000000000;
                         System.out.println("Tiempo de ejecucion: "+duration+" segundos");
                         break;
                     case 3:
+                        startTime = System.nanoTime();
                         BusquedaTabu busquedaTabu = new BusquedaTabu(transmisores, frecuencias, rest);
                         busquedaTabu.algoritmo();
+                        endTime = System.nanoTime();
+                                                
                         busquedaTabu.resultados();
+                        duration = (endTime - startTime)/ 1000000000;
+                        System.out.println("Tiempo de ejecucion: "+duration+" segundos");
                         break;
                     case 4:
+                        startTime = System.nanoTime();
                         Grasp grasp = new Grasp(transmisores, frecuencias, rest);
                         grasp.algoritmo();
+                        endTime = System.nanoTime();
+                        
                         grasp.resultados();
+                        duration = (endTime - startTime)/ 1000000000;
+                        System.out.println("Tiempo de ejecucion: "+duration+" segundos");
                         break;
                     case 5:
                         System.out.println("Conjunto de archivos que quiere usar: ");
