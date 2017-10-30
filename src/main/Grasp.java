@@ -75,11 +75,12 @@ public class Grasp {
         for ( int k = 0; k < 25; k++ ) {
             
             Random numero = new Random();
+            List<List<Integer>> listaRestric = new ArrayList <>();
             int transmisor = 0;
             boolean fin = false;
             while (transmisor < transmisores.size()) {
-
-                if (!listaRestringida.get(k).contains(transmisor)) {
+                listaRestric = restricciones.restriccionesTransmisor(transmisor);
+                if (!listaRestringida.get(k).contains(transmisor) &&  listaRestric.size() > 0) {
 
                     int minimo = Integer.MAX_VALUE;
                     boolean encontrado = false;
@@ -190,50 +191,53 @@ public class Grasp {
 
     private void busquedaSolucion ( float transmisorElegido, int id ) throws FileNotFoundException {
         Random numero = new Random();
+        List<List<Integer>> listaRestric = new ArrayList <>();
         int token = numero.nextInt(transmisores.size());
         for (int i = 0; i < 400; i++) {
             double sentido = numero.nextDouble();
             int valorInicial = frecuenciasR.get(id).get(token); // Se obtiene la frecuencia del token
             int indiceInicial;
             int nuevoCoste = Integer.MAX_VALUE;
-
+            
             indiceInicial = frecuencias.get(transmisores.get(token)).indexOf(valorInicial); // Mas corto que codigo de abajo
+            listaRestric = restricciones.restriccionesTransmisor(token);
+            if ( listaRestric.size() > 0 ) {
+                if (sentido < 0.5) {
+                    boolean encontrado = false;
+                    while (indiceInicial >= 0 && !encontrado) {
+                        int fact1 = rDiferencia(frecuenciasR.get(id), token, restricciones);
+                        valorInicial = frecuencias.get(transmisores.get(token)).get(indiceInicial);
+                        List<Integer> nuevaSolucion = new ArrayList<>();
+                        nuevaSolucion.addAll(frecuenciasR.get(id));
+                        nuevaSolucion.set(token, valorInicial);
+                        int fact2 = rDiferencia(nuevaSolucion, token, restricciones);
+                        nuevoCoste = resultado[id] + (fact2 - fact1);
 
-            if (sentido < 0.5) {
-                boolean encontrado = false;
-                while (indiceInicial >= 0 && !encontrado) {
-                    int fact1 = rDiferencia(frecuenciasR.get(id), token, restricciones);
-                    valorInicial = frecuencias.get(transmisores.get(token)).get(indiceInicial);
-                    List<Integer> nuevaSolucion = new ArrayList<>();
-                    nuevaSolucion.addAll(frecuenciasR.get(id));
-                    nuevaSolucion.set(token, valorInicial);
-                    int fact2 = rDiferencia(nuevaSolucion, token, restricciones);
-                    nuevoCoste = resultado[id] + (fact2 - fact1);
-
-                    if (nuevoCoste < resultado[id]) {
-                        frecuenciasR.get(id).set(token, valorInicial);
-                        resultado[id] = nuevoCoste;
-                        encontrado = true;
+                        if (nuevoCoste < resultado[id]) {
+                            frecuenciasR.get(id).set(token, valorInicial);
+                            resultado[id] = nuevoCoste;
+                            encontrado = true;
+                        }
+                        indiceInicial--;
                     }
-                    indiceInicial--;
-                }
-            } else {
-                boolean encontrado = false;
-                while (indiceInicial < frecuencias.get(transmisores.get(token)).size() && !encontrado) {
-                    int fact1 = rDiferencia(frecuenciasR.get(id), token, restricciones);
-                    valorInicial = frecuencias.get(transmisores.get(token)).get(indiceInicial);
-                    List<Integer> nuevaSolucion = new ArrayList<>();
-                    nuevaSolucion.addAll(frecuenciasR.get(id));
-                    nuevaSolucion.set(token, valorInicial);
-                    int fact2 = rDiferencia(nuevaSolucion, token, restricciones);
-                    nuevoCoste = resultado[id] + (fact2 - fact1);
+                } else {
+                    boolean encontrado = false;
+                    while (indiceInicial < frecuencias.get(transmisores.get(token)).size() && !encontrado) {
+                        int fact1 = rDiferencia(frecuenciasR.get(id), token, restricciones);
+                        valorInicial = frecuencias.get(transmisores.get(token)).get(indiceInicial);
+                        List<Integer> nuevaSolucion = new ArrayList<>();
+                        nuevaSolucion.addAll(frecuenciasR.get(id));
+                        nuevaSolucion.set(token, valorInicial);
+                        int fact2 = rDiferencia(nuevaSolucion, token, restricciones);
+                        nuevoCoste = resultado[id] + (fact2 - fact1);
 
-                    if (nuevoCoste < resultado[id]) {
-                        frecuenciasR.get(id).set(token, valorInicial);
-                        resultado[id] = nuevoCoste;
-                        encontrado = true;
+                        if (nuevoCoste < resultado[id]) {
+                            frecuenciasR.get(id).set(token, valorInicial);
+                            resultado[id] = nuevoCoste;
+                            encontrado = true;
+                        }
+                        indiceInicial++;
                     }
-                    indiceInicial++;
                 }
             }
             token = Math.floorMod(token + 1, transmisores.size());
