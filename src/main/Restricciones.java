@@ -26,7 +26,10 @@ public class Restricciones {
 
     public Restricciones() throws FileNotFoundException {
         int contador = 0;
-        File fichero = new File(main.TRABAJO+"/conjuntos/" + main.DIRECTORIO + "/ctr.txt");
+        String dato = "ctr.txt";
+        if ( main.DIRECTORIO.matches("scen.*") )
+            dato = dato.toUpperCase();
+        File fichero = new File(main.TRABAJO+"/conjuntos/" + main.DIRECTORIO + "/"+dato);
         Scanner lectura = new Scanner(fichero);
         int[] contadores = new int[main.LINEAS];
         Arrays.fill(contadores, 0);
@@ -39,7 +42,6 @@ public class Restricciones {
         while (lectura.hasNextLine()) {
             String linea = lectura.nextLine();
             if (linea.matches("(.*C.*)")) {
-//                System.out.println(linea);
                 Scanner sLinea = new Scanner(linea);
                 while (sLinea.hasNextInt()) {
 

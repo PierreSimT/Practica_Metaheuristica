@@ -10,6 +10,7 @@ import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
+import static main.main.LINEAS;
 
 /**
  *
@@ -21,20 +22,27 @@ public class listaTransmisores
     
     public listaTransmisores() throws FileNotFoundException 
     {
-        int contX = 0;
-        File file = new File (main.TRABAJO+"/conjuntos/"+main.DIRECTORIO+"/var.txt");
+        String datos = "var.txt";
+        if ( main.DIRECTORIO.matches("scen.*") )
+            datos = datos.toUpperCase();
+        File file = new File (main.TRABAJO+"/conjuntos/"+main.DIRECTORIO+"/"+datos);
+        
+        for ( int i = 0; i < LINEAS; i++ ) {
+            transmisores.add(0);
+        }
+        
         Scanner archivo = new Scanner (file);
         while ( archivo.hasNextLine() )
         {
-            contX = 0;
+            int cont = 0;
             String line = archivo.nextLine();
             Scanner linea = new Scanner(line);
-            linea.nextInt();
-            while ( linea.hasNext() && contX < 1 )
+            int transmisor = linea.nextInt();
+            while ( linea.hasNext() && cont < 1)
             {
                 int token = linea.nextInt();
-                transmisores.add(token);
-                contX++;
+                transmisores.set(transmisor, token);
+                cont++;
             }  
             linea.close();
         }

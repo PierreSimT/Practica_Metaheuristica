@@ -318,7 +318,7 @@ public class Grasp {
             int tr1 = listaRest.get(i).get(0);
             int tr2 = listaRest.get(i).get(1);
 
-            if (tr1 == cambioTransmisor || tr2 == cambioTransmisor) {
+            if (tr1 == cambioTransmisor+1 || tr2 == cambioTransmisor+1 ) {
                 int diferencia = listaRest.get(i).get(2);
                 int result = listaRest.get(i).get(3);
 
@@ -409,9 +409,12 @@ public class Grasp {
     }
 
     public void resultados() {
-
+        
+        List<List<Integer>> listaTrans = new ArrayList<>();
         for (int i = 0; i < transmisores.size(); i++) {
-            System.out.println("Transmisor " + (i + 1) + ": " + frecuenciasR.get(idFinal).get(i));
+            listaTrans = restricciones.restriccionesTransmisor(i);
+            if ( listaTrans.size() > 0 )
+                System.out.println("Transmisor " + (i + 1) + ": " + frecuenciasR.get(idFinal).get(i));
         }
         System.out.println("Coste: " + resultado[idFinal]);
     }

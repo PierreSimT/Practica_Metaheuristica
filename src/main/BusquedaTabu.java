@@ -306,8 +306,11 @@ public class BusquedaTabu {
 
     public void resultados() {
         
+        List<List<Integer>> listaTrans = new ArrayList<>();
         for (int i = 0; i < transmisores.size(); i++) {
-            System.out.println("Transmisor " + (i + 1) + ": " + frecuenciasR.get(i));
+            listaTrans = rest.restriccionesTransmisor(i);
+            if ( listaTrans.size() > 0 )
+                System.out.println("Transmisor " + (i + 1) + ": " + frecuenciasR.get(i));
         }
         System.out.println("Coste: " + resultado);
     }

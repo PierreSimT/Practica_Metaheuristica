@@ -23,7 +23,11 @@ public class rangoFrec
     public rangoFrec () throws FileNotFoundException
     {
         int contX = 0;
-        File file = new File(main.TRABAJO+"/conjuntos/"+main.DIRECTORIO+"/dom.txt");
+        String datos = "dom.txt";
+        if ( main.DIRECTORIO.matches("scen.*") )
+            datos = datos.toUpperCase();
+        File file = new File(main.TRABAJO+"/conjuntos/"+main.DIRECTORIO+"/"+datos);
+        
         Scanner archivo = new Scanner (file);
         while ( archivo.hasNextLine() )
         {

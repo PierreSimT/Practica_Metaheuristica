@@ -5,11 +5,9 @@
  */
 package main;
 
-import java.io.BufferedInputStream;
-import java.io.FileInputStream;
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.InputStream;
 import java.util.Random;
 import java.util.Scanner;
 
@@ -124,24 +122,17 @@ public class main {
     }
     
     public static int countLines(String filename) throws IOException {
-    InputStream is = new BufferedInputStream(new FileInputStream(TRABAJO+"/conjuntos/"+filename+"/var.txt"));
-    try {
-        byte[] c = new byte[1024];
-        int count = 0;
-        int readChars = 0;
-        boolean empty = true;
-        while ((readChars = is.read(c)) != -1) {
-            empty = false;
-            for (int i = 0; i < readChars; ++i) {
-                if (c[i] == '\n') {
-                    ++count;
-                }
-            }
+        String archivo = "var.txt";
+        if ( filename.matches("scen.*") )
+            archivo = archivo.toUpperCase();
+        File file = new File (main.TRABAJO+"/conjuntos/"+main.DIRECTORIO+"/"+archivo);
+        Scanner lineas = new Scanner (file);
+        int ultimoTransmisor = 0;
+        while ( lineas.hasNextLine() ) {
+            ultimoTransmisor = lineas.nextInt();
+            String ultimaLinea = lineas.nextLine();
         }
-        return (count == 0 && !empty) ? 1 : count;
-    } finally {
-        is.close();
-    }
+        return ultimoTransmisor;
 }
 
 }
