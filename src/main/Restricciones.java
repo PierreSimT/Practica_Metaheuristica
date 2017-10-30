@@ -14,8 +14,9 @@ import java.util.List;
 import java.util.Scanner;
 
 /**
- * Estructura de datos que almacena las restricciones que deben satisfacer 
- * los transmisores
+ * Estructura de datos que almacena las restricciones que deben satisfacer los
+ * transmisores
+ *
  * @author juan
  */
 public class Restricciones {
@@ -23,27 +24,27 @@ public class Restricciones {
     LinkedList<LinkedList<Integer>> restricciones = new LinkedList<>();
     private List<List<List<Integer>>> resTransmisor;
 
-
-    public Restricciones() throws FileNotFoundException {
+    public Restricciones () throws FileNotFoundException {
         int contador = 0;
         String dato = "ctr.txt";
-        if ( main.DIRECTORIO.matches("scen.*") )
+        if ( main.DIRECTORIO.matches("scen.*") ) {
             dato = dato.toUpperCase();
-        File fichero = new File(main.TRABAJO+"/conjuntos/" + main.DIRECTORIO + "/"+dato);
+        }
+        File fichero = new File(main.TRABAJO + "/conjuntos/" + main.DIRECTORIO + "/" + dato);
         Scanner lectura = new Scanner(fichero);
-        int[] contadores = new int[main.LINEAS];
+        int[] contadores = new int[ main.LINEAS ];
         Arrays.fill(contadores, 0);
-        
+
         resTransmisor = new ArrayList<>();
-        for (int i = 0; i < main.LINEAS; i++) {
+        for ( int i = 0; i < main.LINEAS; i ++ ) {
             resTransmisor.add(new ArrayList<>());
         }
 
-        while (lectura.hasNextLine()) {
+        while( lectura.hasNextLine() ) {
             String linea = lectura.nextLine();
-            if (linea.matches("(.*C.*)")) {
+            if ( linea.matches("(.*C.*)") ) {
                 Scanner sLinea = new Scanner(linea);
-                while (sLinea.hasNextInt()) {
+                while( sLinea.hasNextInt() ) {
 
                     int tr1 = sLinea.nextInt();
                     int tr2 = sLinea.nextInt();
@@ -60,11 +61,11 @@ public class Restricciones {
 
                     restricciones.add(contador, datos);
 
-                    resTransmisor.get(tr1-1).add(new ArrayList());
-                    resTransmisor.get(tr1-1).get(contadores[tr1 - 1]++).addAll(datos);
-                    resTransmisor.get(tr2-1).add(new ArrayList());
-                    resTransmisor.get(tr2-1).get(contadores[tr2 - 1]++).addAll(datos);
-                    contador++;
+                    resTransmisor.get(tr1 - 1).add(new ArrayList());
+                    resTransmisor.get(tr1 - 1).get(contadores[ tr1 - 1 ] ++).addAll(datos);
+                    resTransmisor.get(tr2 - 1).add(new ArrayList());
+                    resTransmisor.get(tr2 - 1).get(contadores[ tr2 - 1 ] ++).addAll(datos);
+                    contador ++;
                 }
                 sLinea.close();
 
@@ -80,7 +81,7 @@ public class Restricciones {
      * @param transmisor
      * @return
      */
-    public List<List<Integer>> restriccionesTransmisor(int transmisor) {
+    public List<List<Integer>> restriccionesTransmisor ( int transmisor ) {
         List<List<Integer>> restriccionesTransmisor = new ArrayList<>();
 
         restriccionesTransmisor = resTransmisor.get(transmisor);
@@ -91,8 +92,8 @@ public class Restricciones {
     /**
      * Devuelve por pantalla todas las restricciones de todos los transmisores
      */
-    public void leerResultados() {
-        for (int i = 0; i < restricciones.size(); i++) {
+    public void leerResultados () {
+        for ( int i = 0; i < restricciones.size(); i ++ ) {
             System.out.println(restricciones.get(i).get(0) + " " + restricciones.get(i).get(1) + " "
                     + restricciones.get(i).get(2) + " " + restricciones.get(i).get(3));
         }

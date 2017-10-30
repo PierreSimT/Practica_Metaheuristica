@@ -16,34 +16,32 @@ import static main.main.LINEAS;
  *
  * @author pierre
  */
-public class listaTransmisores 
-{
-    List<Integer> transmisores = new ArrayList<> ();
-    
-    public listaTransmisores() throws FileNotFoundException 
-    {
+public class listaTransmisores {
+
+    List<Integer> transmisores = new ArrayList<>();
+
+    public listaTransmisores () throws FileNotFoundException {
         String datos = "var.txt";
-        if ( main.DIRECTORIO.matches("scen.*") )
+        if ( main.DIRECTORIO.matches("scen.*") ) {
             datos = datos.toUpperCase();
-        File file = new File (main.TRABAJO+"/conjuntos/"+main.DIRECTORIO+"/"+datos);
-        
-        for ( int i = 0; i < LINEAS; i++ ) {
+        }
+        File file = new File(main.TRABAJO + "/conjuntos/" + main.DIRECTORIO + "/" + datos);
+
+        for ( int i = 0; i < LINEAS; i ++ ) {
             transmisores.add(0);
         }
-        
-        Scanner archivo = new Scanner (file);
-        while ( archivo.hasNextLine() )
-        {
+
+        Scanner archivo = new Scanner(file);
+        while( archivo.hasNextLine() ) {
             int cont = 0;
             String line = archivo.nextLine();
             Scanner linea = new Scanner(line);
             int transmisor = linea.nextInt();
-            while ( linea.hasNext() && cont < 1)
-            {
+            while( linea.hasNext() && cont < 1 ) {
                 int token = linea.nextInt();
                 transmisores.set(transmisor, token);
-                cont++;
-            }  
+                cont ++;
+            }
             linea.close();
         }
         archivo.close();
